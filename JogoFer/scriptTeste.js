@@ -7,21 +7,16 @@ const height = 130;
 const gravidade = 0.5;
 
 class Player {
-    constructor({position, width, height}) {
+    constructor({position, velocity, width, height, bgposition, bgwidth, bgheight}) {
         this.position = position;
-
-        this.velocity = {
-            x: 0,
-            y: 0
-        }
-
-        this.bgposition = {
-            x: 500,
-            y: 288
-        }
-
+        this.velocity = velocity;
         this.width = width;
         this.height = height;
+
+        this.bgposition = bgposition;
+        this.bgwidth = bgwidth;
+        this.bgheight = bgheight;
+    
 
         this.isJumping = false;
 
@@ -56,8 +51,7 @@ class Player {
         ctx.drawImage(this.background, 0 + this.bgposition.x, 0, 
                     this.bgposition.x, this.bgposition.y, //700, 288, 
                     0, 0, 
-                    700, 500);
-
+                    this.bgwidth, this.bgheight);
     }
     
     update() {
@@ -94,13 +88,14 @@ class Player {
         }
 
 
-        if (keys.ArrowRight.pressed){
-            this.bgposition.x += this.velocity.x;
-        } else if (keys.ArrowLeft.pressed){
-            this.bgposition.x += this.velocity.x;
-        } else if (keys.ArrowUp.pressed){
-            this.bgposition.y += this.velocity.y;
-        }
+    //     if (keys.ArrowRight.pressed){
+    //         this.bgposition.x += this.velocity.x;
+    //     } else if (keys.ArrowLeft.pressed){
+    //         this.bgposition.x += this.velocity.x;
+    //     } else if (keys.ArrowUp.pressed){
+    //         this.bgposition.y += this.velocity.y;
+    //     }
+
     }
 
     jump() {
@@ -112,7 +107,19 @@ class Player {
 
 }
 
-const player = new Player( {position: {x: 0, y:100}, width, height});
+const player = new Player( {position: {x: 0, y:100}, velocity: {x:0, y:0}, width, height, bgposition: {x: 500,
+    y: 288}, bgwidth: 700, bgheight: 500});
+
+
+function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    player.update();
+
+}
+
+animate();
+
 
 const keys = {
     ArrowRight: {
@@ -125,17 +132,6 @@ const keys = {
         pressed: false
     }
 }
-
-
-function animate() {
-    requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    player.update();
-
-    
-}
-
-animate();
 
 addEventListener('keydown', (event) => { //ao apertar a tecla
     console.log(event.key);
