@@ -7,15 +7,17 @@ const height = 130;
 const gravidade = 0.5;
 
 class Player {
-    constructor(width, height) {
-        this.position = {
-            x: 0,
-            y: 100
-        }
+    constructor({position, width, height}) {
+        this.position = position;
 
         this.velocity = {
             x: 0,
             y: 0
+        }
+
+        this.bgposition = {
+            x: 500,
+            y: 288
         }
 
         this.width = width;
@@ -31,6 +33,9 @@ class Player {
         this.imageRL.src = 'RunLeft.png';
         this.imageSL = new Image();
         this.imageSL.src = 'IdleLeft.png';
+        this.imageJUMP = new Image();
+        this.imageJUMP.src = 'Jump.png';
+
         this.frames = 0;
 
         this.background1 = new Image();
@@ -48,10 +53,10 @@ class Player {
     }
 
     drawBG(){
-        ctx.drawImage(this.background, 0, 0, 
-                    700, 288, 
+        ctx.drawImage(this.background, 0 + this.bgposition.x, 0, 
+                    this.bgposition.x, this.bgposition.y, //700, 288, 
                     0, 0, 
-                    900, 500);
+                    700, 500);
 
     }
     
@@ -64,6 +69,19 @@ class Player {
             this.frames = 0;
         }
    
+        if (this.position.x < 0) {
+            this.position.x = 0;
+        }
+        if (this.position.x + this.width > canvas.width) {
+            this.position.x = canvas.width - this.width;
+        }
+
+  
+        if (this.bgposition.x + this.width > canvas.width) {
+            this.bgposition.x = canvas.width - this.width;
+        }
+
+
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
 
@@ -75,6 +93,14 @@ class Player {
             this.velocity.y += gravidade;
         }
 
+
+        if (keys.ArrowRight.pressed){
+            this.bgposition.x += this.velocity.x;
+        } else if (keys.ArrowLeft.pressed){
+            this.bgposition.x += this.velocity.x;
+        } else if (keys.ArrowUp.pressed){
+            this.bgposition.y += this.velocity.y;
+        }
     }
 
     jump() {
@@ -86,7 +112,19 @@ class Player {
 
 }
 
-const player = new Player(width, height);
+const player = new Player( {position: {x: 0, y:100}, width, height});
+
+const keys = {
+    ArrowRight: {
+        pressed: false
+    },
+    ArrowLeft: {
+        pressed: false
+    },
+    ArrowUp: {
+        pressed: false
+    }
+}
 
 
 function animate() {
@@ -103,16 +141,18 @@ addEventListener('keydown', (event) => { //ao apertar a tecla
     console.log(event.key);
     switch (event.key) {
         case 'ArrowRight':
-  
+            keys.ArrowRight.pressed = true;
             player.sprite = player.imageRR;
             player.velocity.x = 4;
             break;
         case 'ArrowLeft':
-
+            keys.ArrowLeft.pressed = true;
             player.sprite = player.imageRL;
             player.velocity.x = -4;
             break;
         case 'ArrowUp':
+            keys.ArrowUp.pressed = true;
+            // player.sprite = player.imageJUMP;
             player.jump();
             break;
     }
@@ -122,11 +162,12 @@ addEventListener('keyup', (event) => { //ao soltar a tecla
     console.log(event.key);
     switch (event.key) {
         case 'ArrowRight':
+            keys.ArrowRight.pressed = false;
             player.sprite = player.imageSR;
             player.velocity.x = 0;
             break;
         case 'ArrowLeft':
- 
+            keys.ArrowLeft.pressed = false;
             player.sprite = player.imageSL;
             player.velocity.x = 0;
             break;
