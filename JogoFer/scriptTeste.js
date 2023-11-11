@@ -17,15 +17,15 @@ class Player {
         this.isJumping = false;
 
         this.imageRR = new Image();
-        this.imageRR.src = 'Run.png';
+        this.imageRR.src = 'Imgs/Player/Run.png';
         this.imageSR = new Image();
-        this.imageSR.src = 'Idle.png';
+        this.imageSR.src = 'Imgs/Player/Idle.png';
         this.imageRL = new Image();
-        this.imageRL.src = 'RunLeft.png';
+        this.imageRL.src = 'Imgs/Player/RunLeft.png';
         this.imageSL = new Image();
-        this.imageSL.src = 'IdleLeft.png';
+        this.imageSL.src = 'Imgs/Player/IdleLeft.png';
         this.imageJUMP = new Image();
-        this.imageJUMP.src = 'Jump.png';
+        this.imageJUMP.src = 'Imgs/Player/Jump.png';
 
         this.frames = 0;
 
