@@ -134,17 +134,17 @@ addEventListener('keydown', (event) => { //ao apertar a tecla
     switch (event.key) {
         case 'ArrowRight':
             keys.ArrowRight.pressed = true;
-            player.sprite = player.imageRR;
+            player.spritePlayer = player.imageRR;
             player.velocity.x = 4;
             break;
         case 'ArrowLeft':
             keys.ArrowLeft.pressed = true;
-            player.sprite = player.imageRL;
+            player.spritePlayer = player.imageRL;
             player.velocity.x = -4;
             break;
         case 'ArrowUp':
             keys.ArrowUp.pressed = true;
-            // player.sprite = player.imageJUMP;
+            // player.spritePlayer = player.imageJUMP;
             player.jump();
             break;
     }
@@ -155,12 +155,12 @@ addEventListener('keyup', (event) => { //ao soltar a tecla
     switch (event.key) {
         case 'ArrowRight':
             keys.ArrowRight.pressed = false;
-            player.sprite = player.imageSR;
+            player.spritePlayer = player.imageSR;
             player.velocity.x = 0;
             break;
         case 'ArrowLeft':
             keys.ArrowLeft.pressed = false;
-            player.sprite = player.imageSL;
+            player.spritePlayer = player.imageSL;
             player.velocity.x = 0;
             break;
     }
