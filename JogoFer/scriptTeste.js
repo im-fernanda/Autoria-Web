@@ -1,9 +1,6 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-const width = 128;
-const height = 130;
-
 const gravidade = 0.5;
 
 class Player {
@@ -17,7 +14,6 @@ class Player {
         this.bgwidth = bgwidth;
         this.bgheight = bgheight;
     
-
         this.isJumping = false;
 
         this.imageRR = new Image();
@@ -34,14 +30,14 @@ class Player {
         this.frames = 0;
 
         this.background1 = new Image();
-        this.background1.src = "environment-preview.png";
+        this.background1.src = "Imgs/Backgrounds/environment-preview.png";
 
-        this.sprite = this.imageSR;
+        this.spritePlayer = this.imageSR;
         this.background = this.background1;
     }
 
-    draw() {
-        ctx.drawImage(this.sprite, 128 * this.frames, 60, 
+    drawPlayer() {
+        ctx.drawImage(this.spritePlayer, 128 * this.frames, 60, 
                     this.width, this.height, 
                     this.position.x, this.position.y, 
                     this.width, this.height);
@@ -56,7 +52,7 @@ class Player {
     
     update() {
         this.drawBG();
-        this.draw();
+        this.drawPlayer();
 
         this.frames++;
         if(this.frames>5){
@@ -107,7 +103,7 @@ class Player {
 
 }
 
-const player = new Player( {position: {x: 0, y:100}, velocity: {x:0, y:0}, width, height, bgposition: {x: 500,
+const player = new Player( {position: {x: 0, y:100}, velocity: {x:0, y:0}, width: 128, height: 130, bgposition: {x: 500,
     y: 288}, bgwidth: 700, bgheight: 500});
 
 
