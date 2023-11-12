@@ -14,31 +14,39 @@ imageSL.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
-background1 = new Image();
-background1.src = "Imgs/Backgrounds/environment-preview.png";
-
-// spriteCoin = new Image();
-// spriteCoin.src = 'Imgs/coin.png';
-
-const bg1 = new Background( {bgposition:{x: 500, y:288}, bgWidth: 700, bgHeight: 500, image: background1} );
 const player = new Player( {position:{x: 0, y:100}, velocity:{x:0, y:0}, width: 128, height: 130, image: imageSR} );
 
-// const coin1 = new Coin ( {position:{x: 100, y: 100}, imageSrc: spriteCoin.src} );
+const bg = [
+    new Background({ porta: {x:300, y:300, width:100, height:100}}, 'Imgs/Backgrounds/environment-preview.png', 'Imgs/door.png'),
+    new Background({ porta: {x:300, y:300, width:100, height:100}}, 'Imgs/Backgrounds/environment-preview.png', 'Imgs/door.png'),
+    new Background({ porta: {x:300, y:300, width:100, height:100}}, 'Imgs/Backgrounds/environment-preview.png', 'Imgs/door.png'),
+];
 
-function update() {
-    bg1.updateBG();
+let indiceBG;
+
+function trocaBG(){ // troca o background
+    indiceBG++;
+    if(indiceBG >= bg.length){
+        indiceBG = 0;
+    }    
+    player = new Player( {position:{x: 0, y:100}, velocity:{x:0, y:0}, width: 128, height: 130, image: imageSR} ); // faz o player voltar a posição inicial
+}
+
+function updateGame(){
+
+    bg[indiceBG].drawBG();
     player.updatePlayer();
-
+    player.drawPlayer();
 }
 
 function animate() {
-    requestAnimationFrame(animate);
+ 
+    window.requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    update();
+
+    updateGame();
 
 }
-
-animate();
 
 const keys = {
     ArrowRight: {
@@ -48,6 +56,9 @@ const keys = {
         pressed: false
     },
     ArrowUp: {
+        pressed: false
+    },
+    ArrowDown: {
         pressed: false
     }
 }
@@ -70,6 +81,10 @@ window.addEventListener('keydown', (event) => { //ao apertar a tecla
             // player.spritePlayer = imageJUMP;
             player.jump();
             break;
+        case 'ArrowDown':
+            keys.ArrowDown.pressed = true;
+            trocaBG();
+        break;
     }
 })
 
@@ -88,10 +103,3 @@ window.addEventListener('keyup', (event) => { //ao soltar a tecla
             break;
     }
 })
-
-// let rungame = setInterval(animate, 100);
-
-// setTimeout(() => {
-//     clearInterval(rungame);
-//     console.log("Jogo parado após 3 segundos");
-// }, 3000);

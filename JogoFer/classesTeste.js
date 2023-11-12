@@ -32,7 +32,7 @@ class Player {
         }
     }
 
-    updatePlayer() {
+    update() {
         this.drawPlayer();
 
         this.frames++;
@@ -63,36 +63,52 @@ class Player {
 }
 
 class Background {
-    constructor({bgposition, bgWidth, bgHeight, image}){
-        this.bgposition = bgposition;
-        this.bgWidth = bgWidth;
-        this.bgHeight = bgHeight;
+    constructor(porta, spriteCenario, spritePorta){
+        this.porta = porta;
+        this.cenario = new Image();
+        this.cenario.src = spriteCenario;
+        this.spritePorta = new Image();
+        this.spritePorta.src = spritePorta;
+    }
 
-        this.bgImage = image;
-}
     drawBG(){
-        ctx.drawImage(this.bgImage, 0 + this.bgposition.x + 0 , 0, 
-                    this.bgposition.x, this.bgposition.y, //700, 288, 
-                    0, 0, 
-                    700, 500);
-    };
-
-    updateBG() {
-        this.drawBG();
-        if (this.bgposition.x + Player.width > canvas.width) {
-            this.bgposition.x = canvas.width - Player.width;
-        }
-
-
-    //     if (keys.ArrowRight.pressed){
-    //         this.bgposition.x += this.velocity.x;
-    //     } else if (keys.ArrowLeft.pressed){
-    //         this.bgposition.x += this.velocity.x;
-    //     } else if (keys.ArrowUp.pressed){
-    //         this.bgposition.y += this.velocity.y;
-    //     }
-
-        }
+        ctx.drawImage(this.cenario, 0, 0,
+                        700, 288, 
+                        0, 0, 
+                        canvas.width, canvas.height);
+        ctx.drawImage(this.spritePorta, this.porta.x, this.porta.y, this.porta.width, this.porta.height);
+    }
 }
 
 
+
+
+// class Coin {
+//     constructor(coinPosition, imageSrc){
+//         this.coinPosition = coinPosition;
+
+  
+//     }
+
+//     drawCoin() {
+//         ctx.drawImage(this.image, 0, 0, 
+//                     this.coinWidth, this.coinHeight, 
+//                     100, 50, 
+//                     500, 200);
+//     }
+
+//     updateCoin() {
+//         this.drawCoin();
+
+//         this.frames++;
+//         if (this.frames > 4) {
+//             this.frames = 0;
+//         }
+//     }
+
+
+// }
+
+
+// const moeda = new Coin( {position: {x: 100, 50}});
+// moeda.drawCoin();
