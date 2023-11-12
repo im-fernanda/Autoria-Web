@@ -14,12 +14,12 @@ StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
-const player = new Player( {position:{x: 0, y:100}, velocity:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
+const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
-    new Background({x:472, y:260, width:75, height:87}, 'imgs/door.png', 'imgs/Backgrounds/cenario1.png'),
-    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/cenario2.png'),
+    new Background({x:556, y:213, width:75, height:87}, 'imgs/door.png', 'imgs/Backgrounds/Ruinas1.png'),
+    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/Ruinas2.png'),
     new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/cenario3.png')
 ]
 
@@ -44,24 +44,24 @@ function updateGameArea() { // Atualiza a tela de jogo
 
 function keyDownHandler(e) { // Função ao apertar a tecla
     if (e.key === 'ArrowRight') {
-        player.velocity.x = 5;
+        player.speed.x = 5;
         player.spritePlayer = RunRight;
     } else if (e.key === 'ArrowLeft') {
-        player.velocity.x = -5;
+        player.speed.x = -5;
         player.spritePlayer = RunLeft;
     } else if (e.key === 'ArrowUp') {
         player.jump();
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === ' ') {
         changeBackground();
     }
 }
 
 function keyUpHandler(e) { // Função ao soltar a tecla
     if (e.key === 'ArrowRight') {
-        player.velocity.x = 0;
+        player.speed.x = 0;
         player.spritePlayer = StandRight;
     } else if (e.key === 'ArrowLeft') {
-        player.velocity.x = 0;
+        player.speed.x = 0;
         player.spritePlayer = StandLeft;
     }
 }

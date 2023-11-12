@@ -1,7 +1,7 @@
 class Player {
-    constructor({position, velocity, width, height, image}) {
+    constructor( {position, speed, width, height, image}) {
         this.position = position;
-        this.velocity = velocity;
+        this.speed = speed;
         this.width = width;
         this.height = height;
     
@@ -27,7 +27,7 @@ class Player {
 
     jump() {
         if (!this.isJumping) {
-            this.velocity.y = -10;
+            this.speed.y = -10;
             this.isJumping = true;
         }
     }
@@ -47,15 +47,15 @@ class Player {
             this.position.x = canvas.width - this.width;
         }
 
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
+        this.position.x += this.speed.x;
+        this.position.y += this.speed.y;
 
         if (this.position.y + this.height >= canvas.height) {
             this.position.y = canvas.height - this.height;
-            this.velocity.y = 0;
+            this.speed.y = 0;
             this.isJumping = false;
         } else {
-            this.velocity.y += gravidade;
+            this.speed.y += gravidade;
         }
     }
 
@@ -63,17 +63,20 @@ class Player {
 }
 
 class Background {
-    constructor(porta, caminhoPorta, caminho) {
-        this.porta = porta;
-        this.spritePorta = new Image();
-        this.spritePorta.src = caminhoPorta;
+    constructor(door, doorSrc, bgSrc) {
+        this.door = door;
+        this.spriteDoor = new Image();
+        this.spriteDoor.src = doorSrc;
         this.sprite = new Image();
-        this.sprite.src = caminho;
+        this.sprite.src = bgSrc;
     }
 
     draw() { // Desenha o background
         ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height)
-        ctx.drawImage(this.spritePorta, this.porta.x, this.porta.y, this.porta.width, this.porta.height)
+
+        if (indiceBG == 0){
+            ctx.drawImage(this.spriteDoor, this.door.x, this.door.y, this.door.width, this.door.height)
+        }
     }
 }
 
