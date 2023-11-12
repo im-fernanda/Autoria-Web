@@ -9,22 +9,17 @@ class Player {
         this.isJumping = false;
 
         this.frames = 0;
-
         this.spritePlayer = image;
-
-   
     }
-
     drawPlayer() {
-        ctx.drawImage(this.spritePlayer, 128 * this.frames, 60, 
+        ctx.drawImage(this.spritePlayer, this.width * this.frames, 0, 
                     this.width, this.height, 
-                    this.position.x, this.position.y, 
+                    this.position.x, this.position.y-60, 
                     this.width, this.height);
-   
     }
 
     jump() {
-        if (!this.isJumping) {
+        if (!this.isJumping) { //Ao soltar a tecla up
             this.speed.y = -10;
             this.isJumping = true;
         }
@@ -102,7 +97,8 @@ class Door{
 
     drawDoor(){
         ctx.drawImage(this.spriteDoor, 0, this.door.height * this.currentFrame,
-            this.door.width, this.door.height, this.door.x, this.door.y, 
+            this.door.width, this.door.height, 
+            this.door.x, this.door.y, 
             this.door.width+8, this.door.height+15);
     }
 
@@ -120,32 +116,37 @@ class Door{
 }
 
 
+class Coin {
+    constructor(coin, coinSrc){
+        this.coin = coin;
+        this.spriteCoin = new Image();
+        this.spriteCoin.src = coinSrc;
 
-// class Coin {
-//     constructor(coinPosition, imageSrc){
-//         this.coinPosition = coinPosition;
+        this.currentFrame = 0;
+        this.framesDawn = 0;
+        this.maxFrames = 4;
+    }
 
-  
-//     }
+    drawCoin() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(this.spriteCoin, this.coin.width*this.currentFrame, this.coin.height, 
+                    this.coin.width, this.coin.height, 
+                    this.coin.x, this.coin.y, 
+                    this.coin.width, this.coin.height);
+    }
 
-//     drawCoin() {
-//         ctx.drawImage(this.image, 0, 0, 
-//                     this.coinWidth, this.coinHeight, 
-//                     100, 50, 
-//                     500, 200);
-//     }
+    updateCoin() {
+        this.currentFrame = this.currentFrame % this.maxFrames;
 
-//     updateCoin() {
-//         this.drawCoin();
-
-//         this.frames++;
-//         if (this.frames > 4) {
-//             this.frames = 0;
-//         }
-//     }
+        this.framesDawn++;
+        if (this.framesDawn>=10){
+            this.currentFrame++;
+            this.framesDawn=0;
+        } 
+    }
 
 
-// }
+}
 
 
 

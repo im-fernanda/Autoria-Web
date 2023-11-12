@@ -16,11 +16,11 @@ imageJUMP.src = 'Imgs/Player/Jump.png';
 
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
-let currentPlayer = new Player({position:{x: 0, y:50}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+let currentPlayer = new Player({position:{x: 0, y:0}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
 
 const player = [
-    new Player({position:{x: 0, y:50}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
     new Player({position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
     new Player({position:{x: 0, y:150}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
 ];
 
@@ -32,6 +32,7 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
 ]
 
 const door = new Door( {x:546, y:222, width:95, height:64}, 'imgs/door3.png');
+const moeda = new Coin({x:100, y:222, width:32, height:32}, 'imgs/Coin.png');
 
 let indexBG = 0;
 let indexPlayer = 0;
@@ -44,14 +45,24 @@ function changeBackground() { // Função para trocar o background
     //     indexBG = 0; //Fazer instruções para fim de jogo
     // }
 
+    currentPlayer = player[indexPlayer];
+
     if(indexPlayer < bg.length-1){
         indexPlayer++;
     } 
-    // else {
-    //     indexPlayer = 0; //Fazer instruções para fim de jogo
-    // }
-    
-    currentPlayer = player[indexPlayer];
+
+
+    switch(indexBG) {
+        case 0:
+            currentPlayer.position.y = 100;
+            break;
+        case 1:
+            currentPlayer.position.y = 100; 
+            break;
+        case 2:
+            currentPlayer.position.y = 200;
+            break;
+    }
 
 }
 
@@ -66,8 +77,11 @@ function updateGameArea() { // Atualiza a tela de jogo
              door.updateDoor();
         }
    }
-   currentPlayer.update();
    currentPlayer.drawPlayer();
+   currentPlayer.update();
+   
+   // moeda.drawCoin();
+   // moeda.updateCoin();
 }
 
 function keyDownHandler(e) { // Função ao apertar a tecla
@@ -81,10 +95,6 @@ function keyDownHandler(e) { // Função ao apertar a tecla
     } else if (e.key === 'ArrowUp') {
         currentPlayer.jump();
     } else if (e.key === ' ') {
-        // if(indexBG==0){
-        //     door.updateDoor();
-        // }
-        // door.updateDoor();
         changeBackground();
 
     }

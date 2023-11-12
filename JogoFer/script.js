@@ -14,55 +14,94 @@ StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
-const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
+// const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
+
+let currentPlayer = new Player({position:{x: 0, y:50}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+
+const player = [
+    new Player({position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
+];
 
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
-    new Background({x:556, y:213, width:75, height:87}, 'imgs/door.png', 'imgs/Backgrounds/Ruinas1.png'),
-    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/Ruinas2.png'),
-    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/cenario3.png')
+    new Background('imgs/Backgrounds/Ruinas1.png', {x:500, y:200, width:50, height:50},'imgs/Money.png'),
+    new Background('imgs/Backgrounds/Florest.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png'),
+    new Background('imgs/Backgrounds/cenario3.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png')
 ]
 
-let indiceBG = 0;
+const door = new Door( {x:546, y:222, width:95, height:64}, 'imgs/door3.png');
+
+
+let indexBG = 0;
+let indexPlayer = 0;
 
 function changeBackground() { // Função para trocar o background
-    indiceBG++;
-    if (indiceBG >= bg.length) {
-        indiceBG = 0; // Volta ao primeiro background
-    }
+    if (indexBG < bg.length-1) {
+        indexBG++; 
+    } 
+    // else {
+    //     indexBG = 0; //Fazer instruções para fim de jogo
+    // }
 
-   player = new Player()
+    if(indexPlayer < bg.length-1){
+        indexPlayer++;
+    } 
+    // else {
+    //     indexPlayer = 0; //Fazer instruções para fim de jogo
+    // }
+    
+    currentPlayer = player[indexPlayer];
+
+    
+
 }
+
 
 function updateGameArea() { // Atualiza a tela de jogo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    bg[indexBG].draw();
+    if(indexBG==0){
+        door.drawDoor();
+        if (currentPlayer.position.x>150){
+             door.updateDoor();
+        }
+   }
 
-    bg[indiceBG].draw();
-    player.update();
-    player.drawPlayer();
+   currentPlayer.drawPlayer();
+   currentPlayer.update();
+
+
 }
 
 function keyDownHandler(e) { // Função ao apertar a tecla
+    console.log(e.key);
     if (e.key === 'ArrowRight') {
-        player.speed.x = 5;
-        player.spritePlayer = RunRight;
+        currentPlayer.speed.x = 5;
+        currentPlayer.spritePlayer = RunRight;
     } else if (e.key === 'ArrowLeft') {
-        player.speed.x = -5;
-        player.spritePlayer = RunLeft;
+        currentPlayer.speed.x = -5;
+        currentPlayer.spritePlayer = RunLeft;
     } else if (e.key === 'ArrowUp') {
-        player.jump();
+        currentPlayer.jump();
     } else if (e.key === ' ') {
+        // if(indexBG==0){
+        //     door.updateDoor();
+        // }
         changeBackground();
+
     }
 }
 
 function keyUpHandler(e) { // Função ao soltar a tecla
     if (e.key === 'ArrowRight') {
-        player.speed.x = 0;
-        player.spritePlayer = StandRight;
+        currentPlayer.speed.x = 0;
+        currentPlayer.spritePlayer = StandRight;
     } else if (e.key === 'ArrowLeft') {
-        player.speed.x = 0;
-        player.spritePlayer = StandLeft;
+        currentPlayer.speed.x = 0;
+        currentPlayer.spritePlayer = StandLeft;
     }
 }
 
