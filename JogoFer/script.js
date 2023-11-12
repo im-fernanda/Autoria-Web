@@ -3,95 +3,75 @@ const ctx = canvas.getContext('2d');
 
 const gravidade = 0.5;
 
-imageRR = new Image();
-imageRR.src = 'Imgs/Player/Run.png';
-imageSR = new Image();
-imageSR.src = 'Imgs/Player/Idle.png';
-imageRL = new Image();
-imageRL.src = 'Imgs/Player/RunLeft.png';
-imageSL = new Image();
-imageSL.src = 'Imgs/Player/IdleLeft.png';
+RunRight = new Image();
+RunRight.src = 'Imgs/Player/Run.png';
+StandRight = new Image();
+StandRight.src = 'Imgs/Player/Idle.png';
+RunLeft = new Image();
+RunLeft.src = 'Imgs/Player/RunLeft.png';
+StandLeft = new Image();
+StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
-background1 = new Image();
-background1.src = "Imgs/Backgrounds/environment-preview.png";
+const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
-// spriteCoin = new Image();
-// spriteCoin.src = 'Imgs/coin.png';
 
-const bg1 = new Background( {bgposition:{x: 500, y:288}, bgWidth: 700, bgHeight: 500, image: background1} );
-const player = new Player( {position:{x: 0, y:100}, velocity:{x:0, y:0}, width: 128, height: 130, image: imageSR} );
+const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
+    new Background({x:556, y:213, width:75, height:87}, 'imgs/door.png', 'imgs/Backgrounds/Ruinas1.png'),
+    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/Ruinas2.png'),
+    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/cenario3.png')
+]
 
-// const coin1 = new Coin ( {position:{x: 100, y: 100}, imageSrc: spriteCoin.src} );
+let indiceBG = 0;
 
-function update() {
-    bg1.updateBG();
-    player.updatePlayer();
+function changeBackground() { // Função para trocar o background
+    indiceBG++;
+    if (indiceBG >= bg.length) {
+        indiceBG = 0; // Volta ao primeiro background
+    }
 
+   player = new Player()
 }
 
-function animate() {
-    requestAnimationFrame(animate);
+function updateGameArea() { // Atualiza a tela de jogo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    update();
 
+    bg[indiceBG].draw();
+    player.update();
+    player.drawPlayer();
 }
 
-animate();
-
-const keys = {
-    ArrowRight: {
-        pressed: false
-    },
-    ArrowLeft: {
-        pressed: false
-    },
-    ArrowUp: {
-        pressed: false
+function keyDownHandler(e) { // Função ao apertar a tecla
+    if (e.key === 'ArrowRight') {
+        player.speed.x = 5;
+        player.spritePlayer = RunRight;
+    } else if (e.key === 'ArrowLeft') {
+        player.speed.x = -5;
+        player.spritePlayer = RunLeft;
+    } else if (e.key === 'ArrowUp') {
+        player.jump();
+    } else if (e.key === ' ') {
+        changeBackground();
     }
 }
 
-window.addEventListener('keydown', (event) => { //ao apertar a tecla
-    console.log(event.key);
-    switch (event.key) {
-        case 'ArrowRight':
-            keys.ArrowRight.pressed = true;
-            player.spritePlayer = imageRR;
-            player.velocity.x = 4;
-            break;
-        case 'ArrowLeft':
-            keys.ArrowLeft.pressed = true;
-            player.spritePlayer = imageRL;
-            player.velocity.x = -4;
-            break;
-        case 'ArrowUp':
-            keys.ArrowUp.pressed = true;
-            // player.spritePlayer = imageJUMP;
-            player.jump();
-            break;
+function keyUpHandler(e) { // Função ao soltar a tecla
+    if (e.key === 'ArrowRight') {
+        player.speed.x = 0;
+        player.spritePlayer = StandRight;
+    } else if (e.key === 'ArrowLeft') {
+        player.speed.x = 0;
+        player.spritePlayer = StandLeft;
     }
-})
+}
 
-window.addEventListener('keyup', (event) => { //ao soltar a tecla
-    console.log(event.key);
-    switch (event.key) {
-        case 'ArrowRight':
-            keys.ArrowRight.pressed = false;
-            player.spritePlayer =imageSR;
-            player.velocity.x = 0;
-            break;
-        case 'ArrowLeft':
-            keys.ArrowLeft.pressed = false;
-            player.spritePlayer = imageSL;
-            player.velocity.x = 0;
-            break;
-    }
-})
+document.addEventListener('keydown', keyDownHandler);
+document.addEventListener('keyup', keyUpHandler);
 
-// let rungame = setInterval(animate, 100);
+function gameLoop() {
+    updateGameArea();
+    requestAnimationFrame(gameLoop);
+}
 
-// setTimeout(() => {
-//     clearInterval(rungame);
-//     console.log("Jogo parado após 3 segundos");
-// }, 3000);
+gameLoop();

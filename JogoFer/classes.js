@@ -1,7 +1,7 @@
 class Player {
-    constructor({position, velocity, width, height, image}) {
+    constructor( {position, speed, width, height, image}) {
         this.position = position;
-        this.velocity = velocity;
+        this.speed = speed;
         this.width = width;
         this.height = height;
     
@@ -22,17 +22,16 @@ class Player {
                     this.width, this.height, 
                     this.position.x, this.position.y, 
                     this.width, this.height);
-   
     }
 
     jump() {
         if (!this.isJumping) {
-            this.velocity.y = -10;
+            this.speed.y = -10;
             this.isJumping = true;
         }
     }
 
-    updatePlayer() {
+    update() {
         this.drawPlayer();
 
         this.frames++;
@@ -47,15 +46,15 @@ class Player {
             this.position.x = canvas.width - this.width;
         }
 
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
+        this.position.x += this.speed.x;
+        this.position.y += this.speed.y;
 
         if (this.position.y + this.height >= canvas.height) {
             this.position.y = canvas.height - this.height;
-            this.velocity.y = 0;
+            this.speed.y = 0;
             this.isJumping = false;
         } else {
-            this.velocity.y += gravidade;
+            this.speed.y += gravidade;
         }
     }
 
@@ -63,36 +62,52 @@ class Player {
 }
 
 class Background {
-    constructor({bgposition, bgWidth, bgHeight, image}){
-        this.bgposition = bgposition;
-        this.bgWidth = bgWidth;
-        this.bgHeight = bgHeight;
+    constructor(door, doorSrc, bgSrc) {
+        this.door = door;
+        this.spriteDoor = new Image();
+        this.spriteDoor.src = doorSrc;
+        this.sprite = new Image();
+        this.sprite.src = bgSrc;
+    }
 
-        this.bgImage = image;
-}
-    drawBG(){
-        ctx.drawImage(this.bgImage, 0 + this.bgposition.x + 0 , 0, 
-                    this.bgposition.x, this.bgposition.y, //700, 288, 
-                    0, 0, 
-                    700, 500);
-    };
+    draw() { // Desenha o background
+        ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height)
 
-    updateBG() {
-        this.drawBG();
-        if (this.bgposition.x + Player.width > canvas.width) {
-            this.bgposition.x = canvas.width - Player.width;
+        if (indiceBG == 0){
+            ctx.drawImage(this.spriteDoor, this.door.x, this.door.y, 
+                            this.door.width, this.door.height)
         }
-
-
-    //     if (keys.ArrowRight.pressed){
-    //         this.bgposition.x += this.velocity.x;
-    //     } else if (keys.ArrowLeft.pressed){
-    //         this.bgposition.x += this.velocity.x;
-    //     } else if (keys.ArrowUp.pressed){
-    //         this.bgposition.y += this.velocity.y;
-    //     }
-
-        }
+    }
 }
 
 
+
+// class Coin {
+//     constructor(coinPosition, imageSrc){
+//         this.coinPosition = coinPosition;
+
+  
+//     }
+
+//     drawCoin() {
+//         ctx.drawImage(this.image, 0, 0, 
+//                     this.coinWidth, this.coinHeight, 
+//                     100, 50, 
+//                     500, 200);
+//     }
+
+//     updateCoin() {
+//         this.drawCoin();
+
+//         this.frames++;
+//         if (this.frames > 4) {
+//             this.frames = 0;
+//         }
+//     }
+
+
+// }
+
+
+// const moeda = new Coin( {position: {x: 100, 50}});
+// moeda.drawCoin();

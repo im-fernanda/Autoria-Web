@@ -18,10 +18,12 @@ const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128
 
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
-    new Background({x:556, y:213, width:75, height:87}, 'imgs/door.png', 'imgs/Backgrounds/Ruinas1.png'),
-    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/Ruinas2.png'),
-    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/cenario3.png')
+    new Background('imgs/Backgrounds/Ruinas1.png', {x:500, y:200, width:50, height:50},'imgs/Money.png'),
+    new Background('imgs/Backgrounds/Florest.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png'),
+    new Background('imgs/Backgrounds/cenario3.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png')
 ]
+
+const door = new Door( {x:546, y:222, width:95, height:64}, 'imgs/door3.png');
 
 let indiceBG = 0;
 
@@ -31,18 +33,26 @@ function changeBackground() { // Função para trocar o background
         indiceBG = 0; // Volta ao primeiro background
     }
 
-   player = new Player()
+    const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 }
+
 
 function updateGameArea() { // Atualiza a tela de jogo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+    
     bg[indiceBG].draw();
+    if(indiceBG==0){
+        door.drawDoor();
+        if (player.position.x>150){
+             door.updateDoor();
+        }
+   }
     player.update();
     player.drawPlayer();
 }
 
 function keyDownHandler(e) { // Função ao apertar a tecla
+    console.log(e.key);
     if (e.key === 'ArrowRight') {
         player.speed.x = 5;
         player.spritePlayer = RunRight;
@@ -52,7 +62,12 @@ function keyDownHandler(e) { // Função ao apertar a tecla
     } else if (e.key === 'ArrowUp') {
         player.jump();
     } else if (e.key === ' ') {
+        // if(indiceBG==0){
+        //     door.updateDoor();
+        // }
+        // door.updateDoor();
         changeBackground();
+
     }
 }
 

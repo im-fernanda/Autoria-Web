@@ -1,3 +1,4 @@
+
 class Player {
     constructor( {position, speed, width, height, image}) {
         this.position = position;
@@ -63,20 +64,80 @@ class Player {
 }
 
 class Background {
-    constructor(door, doorSrc, bgSrc) {
-        this.door = door;
-        this.spriteDoor = new Image();
-        this.spriteDoor.src = doorSrc;
+    constructor(bgSrc, coin, coinSrc) {
+        this.coin = coin;
+ 
         this.sprite = new Image();
         this.sprite.src = bgSrc;
+        this.spriteCoin = new Image();
+        this.spriteCoin.src = coinSrc;
+
     }
 
     draw() { // Desenha o background
         ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height)
 
-        if (indiceBG == 0){
-            ctx.drawImage(this.spriteDoor, this.door.x, this.door.y, this.door.width, this.door.height)
-        }
+
+        // ctx.drawImage(this.spriteCoin, 0, 0, 
+        //                         this.coin.width, this.coin.height, 
+        //                         this.coin.x, this.coin.x, 
+        //                         50, 50);
+                            
+        // if (player.position.x == 100){
+        //     this.updateDoor();
+        // }
+    }
+
+    // drawDoor(){
+    //     ctx.drawImage(this.spriteDoor, this.door.width * this.doorFrames, 0,
+    //         this.door.width, this.door.height,
+    //         this.door.x, this.door.y, 
+    //         this.door.width+8, this.door.height+15);
+    // }
+    
+    // updateDoor(){
+    //     this.doorFrames++;
+    //     if (this.doorFames > 3) {
+    //         this.doorFrames = 0;
+    //     }
+    // }
+
+    
+}
+
+class Door{
+    constructor(door, doorSrc){
+        this.door = door;
+        this.spriteDoor = new Image();
+        this.spriteDoor.src = doorSrc;
+
+        this.currentFrame = 0;
+        this.framesDawn = 0;
+
+    }
+
+    drawDoor(){
+        ctx.drawImage(this.spriteDoor, 0, this.door.height * this.currentFrame,
+            this.door.width, this.door.height, this.door.x, this.door.y, 
+            this.door.width+8, this.door.height+15);
+    }
+
+    updateDoor(){
+        this.currentFrame = this.currentFrame % 4;
+
+        this.framesDawn++;
+        if (this.framesDawn>=70){
+            this.currentFrame++;
+            this.framesDawn=0;
+        } 
+
+
+        // if (this.doorFrames < 4) {
+        //     this.doorFrames++;
+        // } else {
+        //     this.doorFrames = 0;
+        // }
+
     }
 }
 

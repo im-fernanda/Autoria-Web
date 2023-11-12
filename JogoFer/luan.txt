@@ -153,3 +153,11 @@ function gameLoop() {
 }
 
 gameLoop();
+
+
+--------------------------------------------------------------------------------------------]
+
+        ctx.drawImage(this.spriteDoor, this.door.width * this.doorFrames, 0,
+                            this.door.width, this.door.height,
+                            this.door.x, this.door.y, 
+                            this.door.width+8, this.door.height+15);
