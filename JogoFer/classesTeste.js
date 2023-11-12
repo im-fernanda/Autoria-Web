@@ -12,10 +12,7 @@ class Player {
 
         this.spritePlayer = image;
 
-        // this.spritePlayer.onload = () => {
-        //     this.width = this.width / this.frames;
-        //     this.height = this.height;
-        // }
+   
     }
 
     drawPlayer() {
@@ -65,10 +62,10 @@ class Player {
 
 class Background {
     constructor(bgSrc, coin, coinSrc) {
-        this.coin = coin;
- 
         this.sprite = new Image();
         this.sprite.src = bgSrc;
+
+        this.coin = coin;
         this.spriteCoin = new Image();
         this.spriteCoin.src = coinSrc;
 
@@ -88,21 +85,7 @@ class Background {
         // }
     }
 
-    // drawDoor(){
-    //     ctx.drawImage(this.spriteDoor, this.door.width * this.doorFrames, 0,
-    //         this.door.width, this.door.height,
-    //         this.door.x, this.door.y, 
-    //         this.door.width+8, this.door.height+15);
-    // }
-    
-    // updateDoor(){
-    //     this.doorFrames++;
-    //     if (this.doorFames > 3) {
-    //         this.doorFrames = 0;
-    //     }
-    // }
-
-    
+   
 }
 
 class Door{
@@ -113,6 +96,7 @@ class Door{
 
         this.currentFrame = 0;
         this.framesDawn = 0;
+        this.maxFrames = 4;
 
     }
 
@@ -123,7 +107,7 @@ class Door{
     }
 
     updateDoor(){
-        this.currentFrame = this.currentFrame % 4;
+        this.currentFrame = this.currentFrame % this.maxFrames;
 
         this.framesDawn++;
         if (this.framesDawn>=70){
@@ -131,12 +115,6 @@ class Door{
             this.framesDawn=0;
         } 
 
-
-        // if (this.doorFrames < 4) {
-        //     this.doorFrames++;
-        // } else {
-        //     this.doorFrames = 0;
-        // }
 
     }
 }
@@ -170,5 +148,4 @@ class Door{
 // }
 
 
-// const moeda = new Coin( {position: {x: 100, 50}});
-// moeda.drawCoin();
+

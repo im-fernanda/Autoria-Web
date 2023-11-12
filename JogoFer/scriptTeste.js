@@ -14,7 +14,15 @@ StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
-const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
+// const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
+
+let currentPlayer = new Player({position:{x: 0, y:50}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+
+const player = [
+    new Player({position:{x: 0, y:50}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
+];
 
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
@@ -25,44 +33,55 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
 
 const door = new Door( {x:546, y:222, width:95, height:64}, 'imgs/door3.png');
 
-let indiceBG = 0;
+let indexBG = 0;
+let indexPlayer = 0;
 
 function changeBackground() { // Função para trocar o background
-    indiceBG++;
-    if (indiceBG >= bg.length) {
-        indiceBG = 0; // Volta ao primeiro background
-    }
+    if (indexBG < bg.length-1) {
+        indexBG++; 
+    } 
+    // else {
+    //     indexBG = 0; //Fazer instruções para fim de jogo
+    // }
 
-    const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
+    if(indexPlayer < bg.length-1){
+        indexPlayer++;
+    } 
+    // else {
+    //     indexPlayer = 0; //Fazer instruções para fim de jogo
+    // }
+    
+    currentPlayer = player[indexPlayer];
+
 }
 
 
 function updateGameArea() { // Atualiza a tela de jogo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    bg[indiceBG].draw();
-    if(indiceBG==0){
+    bg[indexBG].draw();
+    if(indexBG==0){
         door.drawDoor();
-        if (player.position.x>150){
+        if (currentPlayer.position.x>150){
              door.updateDoor();
         }
    }
-    player.update();
-    player.drawPlayer();
+   currentPlayer.update();
+   currentPlayer.drawPlayer();
 }
 
 function keyDownHandler(e) { // Função ao apertar a tecla
     console.log(e.key);
     if (e.key === 'ArrowRight') {
-        player.speed.x = 5;
-        player.spritePlayer = RunRight;
+        currentPlayer.speed.x = 5;
+        currentPlayer.spritePlayer = RunRight;
     } else if (e.key === 'ArrowLeft') {
-        player.speed.x = -5;
-        player.spritePlayer = RunLeft;
+        currentPlayer.speed.x = -5;
+        currentPlayer.spritePlayer = RunLeft;
     } else if (e.key === 'ArrowUp') {
-        player.jump();
+        currentPlayer.jump();
     } else if (e.key === ' ') {
-        // if(indiceBG==0){
+        // if(indexBG==0){
         //     door.updateDoor();
         // }
         // door.updateDoor();
@@ -73,11 +92,11 @@ function keyDownHandler(e) { // Função ao apertar a tecla
 
 function keyUpHandler(e) { // Função ao soltar a tecla
     if (e.key === 'ArrowRight') {
-        player.speed.x = 0;
-        player.spritePlayer = StandRight;
+        currentPlayer.speed.x = 0;
+        currentPlayer.spritePlayer = StandRight;
     } else if (e.key === 'ArrowLeft') {
-        player.speed.x = 0;
-        player.spritePlayer = StandLeft;
+        currentPlayer.speed.x = 0;
+        currentPlayer.spritePlayer = StandLeft;
     }
 }
 
