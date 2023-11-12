@@ -1,137 +1,155 @@
 
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        const gravity = 1;
-        const jumpStrength = 15;
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
-        class Player {
-            constructor() {
-                // ... (restante do código do jogador)
-            }
+const gravidade = 1;
 
-            // ... (restante do código do jogador)
+class Player {
+    constructor() {
+        this.width = 100;
+        this.height = 145;
+        this.position = {
+            x: 50,
+            y: canvas.height - this.height
+        }
+        this.velocidade = {
+            x: 0,
+            y: 0
+        }
+        this.isJump = false;
+
+        this.StandRight = new Image();
+        this.StandRight.src = 'imgs/player/Idle.png';
+        this.StandLeft = new Image();
+        this.StandLeft.src = 'imgs/player/IdleLeft.png';
+        this.RunRight = new Image();
+        this.RunRight.src = 'imgs/player/Run.png';
+        this.RunLeft = new Image();
+        this.RunLeft.src = 'imgs/player/RunLeft.png';
+
+        this.sprite = this.StandRight;
+
+        this.frames = 0;
+    }
+
+    draw() { // Desenha o jogador
+        ctx.drawImage(this.sprite, 128 * this.frames, 30,
+            this.width, this.height,
+            this.position.x, this.position.y,
+            this.width, this.height);
+    }
+
+    jump() { // Função para o jogador pular
+        if (!this.isJump) {
+            this.velocidade.y = -15;
+            this.isJump = true;
+        }
+    }
+
+    update() {
+        this.frames++;
+        if (this.frames > 5) {
+            this.frames = 0;
+        }
+        // Atualiza a posição do jogador
+        this.position.x += this.velocidade.x;
+        this.position.y += this.velocidade.y;
+
+        // Aplica a gravidade
+        this.velocidade.y += gravidade;
+
+        // Não deixa o jogador sair do canvas
+        if (this.position.x < 0) {
+            this.position.x = 0;
+        }
+        if (this.position.x + this.width > canvas.width) {
+            this.position.x = canvas.width - this.width;
         }
 
-        class Background {
-            constructor(color, scenery, door, spritePath, doorSpritePath) {
-                this.color = color;
-                this.scenery = scenery;
-                this.door = door;
-                this.sprite = new Image();
-                this.sprite.src = spritePath;
-                this.doorSprite = new Image();
-                this.doorSprite.src = doorSpritePath;
-            }
-
-            draw() {
-                // Draw background color
-                ctx.fillStyle = this.color;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                // Draw background sprite
-                ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height);
-
-                // Draw door sprite
-                ctx.drawImage(this.doorSprite, this.door.x, this.door.y, this.door.width, this.door.height);
-
-                // Draw scenery information
-                ctx.fillStyle = '#000';
-                ctx.font = '20px Arial';
-                ctx.fillText(`Current Scenery: ${this.scenery}`, 10, 30);
-            }
+        // Colisão do chão
+        if (this.position.y + this.height > canvas.height) {
+            this.position.y = canvas.height - this.height;
+            this.velocidade.y = 0;
+            this.isJump = false;
         }
 
-        const backgrounds = [
-            new Background('green', 'Scenery 1', { x: 600, y: canvas.height - 100, width: 100, height: 100 }, 'path/to/background/sprite1.png', 'path/to/door/sprite1.png'),
-            new Background('yellow', 'Scenery 2', { x: 500, y: canvas.height - 100, width: 100, height: 100 }, 'path/to/background/sprite2.png', 'path/to/door/sprite2.png'),
-            // Add more backgrounds as needed
-        ];
 
-        let currentBackgroundIndex = 0;
-        let player = new Player();
+    }
+}
 
-        function changeBackground() {
-            currentBackgroundIndex++;
-            if (currentBackgroundIndex >= backgrounds.length) {
-                currentBackgroundIndex = 0; // Loop back to the first background
-            }
-
-            player = new Player();
-        }
-
-        function updateGameArea() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            backgrounds[currentBackgroundIndex].draw();
-            player.update();
-            player.draw();
-        }
-
-        function keyDownHandler(e) {
-            if (e.key === 'ArrowRight') {
-                player.velocityX = 5;
-            } else if (e.key === 'ArrowLeft') {
-                player.velocityX = -5;
-            } else if (e.key === 'ArrowUp') {
-                player.jump();
-            } else if (e.key === 'ArrowDown') {
-                changeBackground();
-            }
-        }
-
-        function keyUpHandler(e) {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-                player.velocityX = 0;
-            }
-        }
-
-        document.addEventListener('keydown', keyDownHandler);
-        document.addEventListener('keyup', keyUpHandler);
-
-        function gameLoop() {
-            updateGameArea();
-            requestAnimationFrame(gameLoop);
-        }
-
-        gameLoop();
-
-
-
-
-
-
-
----------------------------------- bg antes --------------------------------------
 class Background {
-    constructor({bgposition, bgwidth, bgheight, image}){
-        this.bgposition = bgposition;
-        this.bgwidth = bgwidth;
-        this.bgheight = bgheight;
+    constructor(porta, caminhoPorta, caminho) {
+        this.porta = porta;
+        this.spritePorta = new Image();
+        this.spritePorta.src = caminhoPorta;
+        this.sprite = new Image();
+        this.sprite.src = caminho;
+    }
 
-        this.bgImage = image;
-}
-    drawBG(){
-        ctx.drawImage(this.bgImage, 0 + this.bgposition.x, 0, 
-                    this.bgposition.x, this.bgposition.y, //700, 288, 
-                    0, 0, 
-                    this.bgwidth, this.bgheight);
-    };
-    
-    updateBG() {
-        this.drawBG();
-        if (this.bgposition.x + Player.width > canvas.width) {
-            this.bgposition.x = canvas.width - Player.width;
-        }
-
-
-    //     if (keys.ArrowRight.pressed){
-    //         this.bgposition.x += this.velocity.x;
-    //     } else if (keys.ArrowLeft.pressed){
-    //         this.bgposition.x += this.velocity.x;
-    //     } else if (keys.ArrowUp.pressed){
-    //         this.bgposition.y += this.velocity.y;
-    //     }
-
-        }
+    draw() { // Desenha o background
+        ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height)
+        ctx.drawImage(this.spritePorta, this.porta.x, this.porta.y, this.porta.width, this.porta.height)
+    }
 }
 
+const bg = [ // Vetor de backgrounds para facilitar a troca
+    new Background({x:472, y:260, width:75, height:87}, 'imgs/door.png', 'imgs/background/cenario1.png'),
+    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/background/cenario2.png'),
+    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/background/cenario3.png')
+]
+
+let IndiceBG = 0;
+let player = new Player();
+
+function changeBackground() { // Função para trocar o background
+    IndiceBG++;
+    if (IndiceBG >= bg.length) {
+        IndiceBG = 0; // Volta ao primeiro background
+    }
+
+    player = new Player()
+}
+
+function updateGameArea() { // Atualiza a tela de jogo
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    bg[IndiceBG].draw();
+    player.update();
+    player.draw();
+}
+
+function keyDownHandler(e) { // Função ao apertar a tecla
+    if (e.key === 'ArrowRight') {
+        player.velocidade.x = 5;
+        player.sprite = player.RunRight;
+    } else if (e.key === 'ArrowLeft') {
+        player.velocidade.x = -5;
+        player.sprite = player.RunLeft;
+    } else if (e.key === 'ArrowUp') {
+        player.jump();
+    } else if (e.key === 'ArrowDown') {
+        changeBackground();
+    }
+}
+
+function keyUpHandler(e) { // Função ao soltar a tecla
+    if (e.key === 'ArrowRight') {
+        player.velocidade.x = 0;
+        player.sprite = player.StandRight;
+    } else if (e.key === 'ArrowLeft') {
+        player.velocidade.x = 0;
+        player.sprite = player.StandLeft;
+    }
+}
+
+document.addEventListener('keydown', keyDownHandler);
+document.addEventListener('keyup', keyUpHandler);
+
+function gameLoop() {
+    updateGameArea();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();

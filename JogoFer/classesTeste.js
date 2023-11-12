@@ -63,23 +63,19 @@ class Player {
 }
 
 class Background {
-    constructor(porta, spriteCenario, spritePorta){
+    constructor(porta, caminhoPorta, caminho) {
         this.porta = porta;
-        this.cenario = new Image();
-        this.cenario.src = spriteCenario;
         this.spritePorta = new Image();
-        this.spritePorta.src = spritePorta;
+        this.spritePorta.src = caminhoPorta;
+        this.sprite = new Image();
+        this.sprite.src = caminho;
     }
 
-    drawBG(){
-        ctx.drawImage(this.cenario, 0, 0,
-                        700, 288, 
-                        0, 0, 
-                        canvas.width, canvas.height);
-        ctx.drawImage(this.spritePorta, this.porta.x, this.porta.y, this.porta.width, this.porta.height);
+    draw() { // Desenha o background
+        ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height)
+        ctx.drawImage(this.spritePorta, this.porta.x, this.porta.y, this.porta.width, this.porta.height)
     }
 }
-
 
 
 

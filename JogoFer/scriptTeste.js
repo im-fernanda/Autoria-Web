@@ -3,103 +3,75 @@ const ctx = canvas.getContext('2d');
 
 const gravidade = 0.5;
 
-imageRR = new Image();
-imageRR.src = 'Imgs/Player/Run.png';
-imageSR = new Image();
-imageSR.src = 'Imgs/Player/Idle.png';
-imageRL = new Image();
-imageRL.src = 'Imgs/Player/RunLeft.png';
-imageSL = new Image();
-imageSL.src = 'Imgs/Player/IdleLeft.png';
+RunRight = new Image();
+RunRight.src = 'Imgs/Player/Run.png';
+StandRight = new Image();
+StandRight.src = 'Imgs/Player/Idle.png';
+RunLeft = new Image();
+RunLeft.src = 'Imgs/Player/RunLeft.png';
+StandLeft = new Image();
+StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
-const player = new Player( {position:{x: 0, y:100}, velocity:{x:0, y:0}, width: 128, height: 130, image: imageSR} );
+const player = new Player( {position:{x: 0, y:100}, velocity:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
-const bg = [
-    new Background({ porta: {x:300, y:300, width:100, height:100}}, 'Imgs/Backgrounds/environment-preview.png', 'Imgs/door.png'),
-    new Background({ porta: {x:300, y:300, width:100, height:100}}, 'Imgs/Backgrounds/environment-preview.png', 'Imgs/door.png'),
-    new Background({ porta: {x:300, y:300, width:100, height:100}}, 'Imgs/Backgrounds/environment-preview.png', 'Imgs/door.png'),
-];
 
-let indiceBG;
+const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
+    new Background({x:472, y:260, width:75, height:87}, 'imgs/door.png', 'imgs/Backgrounds/cenario1.png'),
+    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/cenario2.png'),
+    new Background({x:100, y:100, width:100, height:100}, 'imgs/door.png','imgs/Backgrounds/cenario3.png')
+]
 
-function trocaBG(){ // troca o background
+let indiceBG = 0;
+
+function changeBackground() { // Função para trocar o background
     indiceBG++;
-    if(indiceBG >= bg.length){
-        indiceBG = 0;
-    }    
-    player = new Player( {position:{x: 0, y:100}, velocity:{x:0, y:0}, width: 128, height: 130, image: imageSR} ); // faz o player voltar a posição inicial
+    if (indiceBG >= bg.length) {
+        indiceBG = 0; // Volta ao primeiro background
+    }
+
+   player = new Player()
 }
 
-function updateGame(){
+function updateGameArea() { // Atualiza a tela de jogo
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    bg[indiceBG].drawBG();
-    player.updatePlayer();
+    bg[indiceBG].draw();
+    player.update();
     player.drawPlayer();
 }
 
-function animate() {
- 
-    window.requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    updateGame();
-
-}
-
-const keys = {
-    ArrowRight: {
-        pressed: false
-    },
-    ArrowLeft: {
-        pressed: false
-    },
-    ArrowUp: {
-        pressed: false
-    },
-    ArrowDown: {
-        pressed: false
+function keyDownHandler(e) { // Função ao apertar a tecla
+    if (e.key === 'ArrowRight') {
+        player.velocity.x = 5;
+        player.spritePlayer = RunRight;
+    } else if (e.key === 'ArrowLeft') {
+        player.velocity.x = -5;
+        player.spritePlayer = RunLeft;
+    } else if (e.key === 'ArrowUp') {
+        player.jump();
+    } else if (e.key === 'ArrowDown') {
+        changeBackground();
     }
 }
 
-window.addEventListener('keydown', (event) => { //ao apertar a tecla
-    console.log(event.key);
-    switch (event.key) {
-        case 'ArrowRight':
-            keys.ArrowRight.pressed = true;
-            player.spritePlayer = imageRR;
-            player.velocity.x = 4;
-            break;
-        case 'ArrowLeft':
-            keys.ArrowLeft.pressed = true;
-            player.spritePlayer = imageRL;
-            player.velocity.x = -4;
-            break;
-        case 'ArrowUp':
-            keys.ArrowUp.pressed = true;
-            // player.spritePlayer = imageJUMP;
-            player.jump();
-            break;
-        case 'ArrowDown':
-            keys.ArrowDown.pressed = true;
-            trocaBG();
-        break;
+function keyUpHandler(e) { // Função ao soltar a tecla
+    if (e.key === 'ArrowRight') {
+        player.velocity.x = 0;
+        player.spritePlayer = StandRight;
+    } else if (e.key === 'ArrowLeft') {
+        player.velocity.x = 0;
+        player.spritePlayer = StandLeft;
     }
-})
+}
 
-window.addEventListener('keyup', (event) => { //ao soltar a tecla
-    console.log(event.key);
-    switch (event.key) {
-        case 'ArrowRight':
-            keys.ArrowRight.pressed = false;
-            player.spritePlayer =imageSR;
-            player.velocity.x = 0;
-            break;
-        case 'ArrowLeft':
-            keys.ArrowLeft.pressed = false;
-            player.spritePlayer = imageSL;
-            player.velocity.x = 0;
-            break;
-    }
-})
+document.addEventListener('keydown', keyDownHandler);
+document.addEventListener('keyup', keyUpHandler);
+
+function gameLoop() {
+    updateGameArea();
+    requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
