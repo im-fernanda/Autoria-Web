@@ -20,7 +20,6 @@ imageJUMP.src = 'Imgs/Player/Jump.png';
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
 
-
 let currentPlayer = new Player({position:{x: 0, y:0}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
 
 const player = [
@@ -36,8 +35,9 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
     new Background('imgs/Backgrounds/Florest1.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png')
 ]
 
-const door = new Door( {x:546, y:222, width:95, height:64}, 'imgs/door3.png');
+const door = new Door( {x:620, y:225, width:95, height:64}, 'imgs/door3.png');
 const moeda = new Coin({x:100, y:222, width:40, height:30}, 'imgs/Coin.png');
+
 
 
 let indexBG = 0;

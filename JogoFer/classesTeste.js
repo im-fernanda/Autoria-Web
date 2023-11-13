@@ -60,25 +60,17 @@ class Player {
     }
 
     checkForVerticalCollisions(){
-        //console.log('Collision Blocks:', this.collisionBlocks);
-
-        //Pegar propriedades de CADA bloco de colisão
-        // for (let i=0; i<this.collisionBlocks.length; i++){
- 
-        //     const collisionBlock = this.collisionBlocks[i];
+        for (let i=0; i<collisionBlocks.length; i++){
+            const collisionBlock = collisionBlocks[i];
+            const positionY = collisionBlock.position.y;
+            console.log(positionY);
             
-        //   //  Instrução para se colidir
-        //     if(collision({object1: this, object2: {
-        //                                 ...collisionBlock,
-        //                                 posicion: {
-        //                                     x: collisionBlock.posicion.x,
-        //                                     y: collisionBlock.posicion.y
-        //                                 }}})
-        //         ){
-        //         console.log("Colidindo!!!")
-        //     }
-        // }
-    
+            // Instrução para se colidir
+            if(collision(currentPlayer, collisionBlock) ){
+                console.log("Colidindo!!!")
+            }
+            
+            }
        
     }
 }
