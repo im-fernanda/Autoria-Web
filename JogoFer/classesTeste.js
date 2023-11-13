@@ -9,13 +9,19 @@ class Player {
     
         this.isJumping = false;
 
-        this.frames = 0;
+        // this.frames = 0;
         this.spritePlayer = image;
+
+        
+        this.currentFrame = 0;
+        this.framesDawn = 0;
+        this.maxFrames = 5;
+
     }
     drawPlayer() {
-        ctx.drawImage(this.spritePlayer, this.width * this.frames, 0, 
+        ctx.drawImage(this.spritePlayer, this.width * this.currentFrame, 0, 
                     this.width, this.height, 
-                    this.position.x, this.position.y-60, 
+                    this.position.x, this.position.y, //-60, 
                     this.width, this.height);
     }
 
@@ -29,10 +35,18 @@ class Player {
     update() {
         this.drawPlayer();
 
-        this.frames++;
-        if (this.frames > 5) {
-            this.frames = 0;
-        }
+        // this.frames++;
+        // if (this.frames > 5) {
+        //     this.frames = 0;
+        // }
+
+        this.currentFrame = this.currentFrame % this.maxFrames;
+
+        this.framesDawn++;
+        if (this.framesDawn>=6){
+            this.currentFrame++;
+            this.framesDawn=0;
+        } 
 
         if (this.position.x < 0) {
             this.position.x = 0;
@@ -149,22 +163,22 @@ class Coin {
     }
 
     drawCoin() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.drawImage(this.spriteCoin, 0, 0, 
+        ctx.drawImage(this.spriteCoin, this.coin.width*this.currentFrame, 0, 
                     this.coin.width, this.coin.height, 
                     this.coin.x, this.coin.y, 
-                    this.coin.width, this.coin.height);
+                    this.coin.width*1.5, this.coin.height*1.5);
     }
 
     updateCoin() {
+        this.drawCoin();
         this.currentFrame = this.currentFrame % this.maxFrames;
 
         this.framesDawn++;
-        if (this.framesDawn>=10){
+        if (this.framesDawn>=4){
             this.currentFrame++;
             this.framesDawn=0;
         } 
+
     }
 
 
