@@ -14,21 +14,22 @@ StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
+
+
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
-let currentPlayer = new Player({position:{x: 0, y:0}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+let currentPlayer = new Player({position:{x: 0, y:0}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
 
 const player = [
-    new Player({position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
-    new Player({position:{x: 0, y:150}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
-    new Player({position:{x: 0, y:150}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
+    new Player({position:{x: 0, y:100}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
 ];
-
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
     new Background('imgs/Backgrounds/Ruinas1.png', {x:500, y:200, width:50, height:50},'imgs/Money.png'),
-    new Background('imgs/Backgrounds/Florest.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png'),
-    new Background('imgs/Backgrounds/cenario3.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png')
+    new Background('imgs/Backgrounds/Temple1.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png'),
+    new Background('imgs/Backgrounds/Florest1.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png')
 ]
 
 const door = new Door( {x:546, y:222, width:95, height:64}, 'imgs/door3.png');
@@ -50,7 +51,6 @@ function changeBackground() { // Função para trocar o background
     if(indexPlayer < bg.length-1){
         indexPlayer++;
     } 
-
 
     switch(indexBG) {
         case 0:
@@ -77,6 +77,11 @@ function updateGameArea() { // Atualiza a tela de jogo
              door.updateDoor();
         }
    }
+
+   collisionBlocks.forEach((collisionBlock) => {
+        collisionBlock.update();
+   })
+
    currentPlayer.drawPlayer();
    currentPlayer.update();
    

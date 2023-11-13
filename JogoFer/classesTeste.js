@@ -1,7 +1,8 @@
-
 class Player {
-    constructor( {position, speed, width, height, image}) {
+    constructor( {position, collisionBlocks, speed, width, height, image}) {
         this.position = position;
+        this.collisionBlocks = collisionBlocks;
+        
         this.speed = speed;
         this.width = width;
         this.height = height;
@@ -41,6 +42,12 @@ class Player {
         }
 
         this.position.x += this.speed.x;
+
+        this.applyGravity();
+        this.checkForVerticalCollisions();
+    }
+
+    applyGravity(){
         this.position.y += this.speed.y;
 
         if (this.position.y + this.height >= canvas.height) {
@@ -52,8 +59,24 @@ class Player {
         }
     }
 
+    checkForVerticalCollisions(){
+        //console.log('Collision Blocks:', this.collisionBlocks);
 
-}
+        //Pegar propriedades de CADA bloco de colisão
+        for (let i=0; i<this.collisionBlocks.length; i++){
+            const collisionBlock = this.collisionBlocks[i];
+        
+            // //Instrução para se colidir
+            if(collision({object1: this, 
+                        object2: collisionBlock})
+                ){
+                console.log("Colidindo!!!")
+            }
+        }
+    
+       
+    }
+
 
 class Background {
     constructor(bgSrc, coin, coinSrc) {
