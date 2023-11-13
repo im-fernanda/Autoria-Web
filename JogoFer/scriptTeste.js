@@ -2,6 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 const gravidade = 0.5;
+let doorOpen = false; 
 
 RunRight = new Image();
 RunRight.src = 'Imgs/Player/Run.png';
@@ -18,6 +19,8 @@ imageJUMP.src = 'Imgs/Player/Jump.png';
 
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
+
+
 let currentPlayer = new Player({position:{x: 0, y:0}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
 
 const player = [
@@ -26,6 +29,7 @@ const player = [
     new Player({position:{x: 0, y:150}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
 ];
 
+
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
     new Background('imgs/Backgrounds/Ruinas1.png', {x:500, y:200, width:50, height:50},'imgs/Money.png'),
     new Background('imgs/Backgrounds/Temple1.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png'),
@@ -33,7 +37,8 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
 ]
 
 const door = new Door( {x:546, y:222, width:95, height:64}, 'imgs/door3.png');
-const moeda = new Coin({x:100, y:222, width:32, height:32}, 'imgs/Coin.png');
+const moeda = new Coin({x:100, y:222, width:40, height:30}, 'imgs/Coin.png');
+
 
 let indexBG = 0;
 let indexPlayer = 0;
@@ -74,7 +79,8 @@ function updateGameArea() { // Atualiza a tela de jogo
     if(indexBG==0){
         door.drawDoor();
         if (currentPlayer.position.x>150){
-             door.updateDoor();
+            door.updateDoor();
+            doorOpen = true;
         }
    }
 
@@ -100,8 +106,9 @@ function keyDownHandler(e) { // Função ao apertar a tecla
     } else if (e.key === 'ArrowUp') {
         currentPlayer.jump();
     } else if (e.key === ' ') {
-        changeBackground();
-
+        if (doorOpen){
+            changeBackground();
+        }
     }
 }
 

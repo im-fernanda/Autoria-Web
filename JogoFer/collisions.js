@@ -73,35 +73,40 @@ const collisions2 = [
 ];
 
 //Cria um vetor com cada linha da matriz
-const levelOneCollisions = [];
+const collisionMap1 = [];
 for (let i = 0; i < collisions1.length; i += 62) {
-    levelOneCollisions.push(collisions1.slice(i, i + 62));
+    collisionMap1.push(collisions1.slice(i, i + 62));
 };
 
-// console.log(levelOneCollisions); //34 linhas
+// console.log(collisionMap1); //34 linhas
+
 
 const collisionBlocks = [];
 //Localiza onde devem ser desenhados os blocos de colisões
-levelOneCollisions.forEach((row, y) => {
+collisionMap1.forEach((row, y) => {
     row.forEach((symbol, x) => {
         if (symbol === 2109){
-            console.log("draw a block here")
-            collisionBlocks.push(new CollisionBlock({
-                position: {x: x*12, y: y*12}
-            }))
+            console.log(`Creating CollisionBlock at x: ${x}, y: ${y}`);
+            collisionBlocks.push(new CollisionBlock( {position: {x: x*12, 
+                                                                y: y*12}} ))
         }
     })
 })
 
-//console.log(collisionBlocks);
 
-function collision(object1, object2){
-    return (object1.position.y + object1.height >= object2.position.y &&
-            object1.position.y <= object2.position.y + object2.height &&
-            object1.position.x <= object2.position.x + object2.width &&
-            object1.position.x + object1.width >= object2.position.x
-    )
-};
+for (let i=0; i<collisionBlocks.length; i++){
+    const collisionBlock = collisionBlocks[i];
+    const positionY = collisionBlock.position.y;
+    console.log(positionY);
+    
+    //  Instrução para se colidir
+    // if(collision(currentPlayer, collisionBlock)
+    //     ){
+    //     console.log("Colidindo!!!")
+    // }
+
+}
+
 
 
 

@@ -44,7 +44,7 @@ class Player {
         this.position.x += this.speed.x;
 
         this.applyGravity();
-        this.checkForVerticalCollisions();
+      //  this.checkForVerticalCollisions();
     }
 
     applyGravity(){
@@ -63,16 +63,21 @@ class Player {
         //console.log('Collision Blocks:', this.collisionBlocks);
 
         //Pegar propriedades de CADA bloco de colisão
-        for (let i=0; i<this.collisionBlocks.length; i++){
-            const collisionBlock = this.collisionBlocks[i];
-        
-            // //Instrução para se colidir
-            if(collision({object1: this, 
-                        object2: collisionBlock})
-                ){
-                console.log("Colidindo!!!")
-            }
-        }
+        // for (let i=0; i<this.collisionBlocks.length; i++){
+ 
+        //     const collisionBlock = this.collisionBlocks[i];
+            
+        //   //  Instrução para se colidir
+        //     if(collision({object1: this, object2: {
+        //                                 ...collisionBlock,
+        //                                 posicion: {
+        //                                     x: collisionBlock.posicion.x,
+        //                                     y: collisionBlock.posicion.y
+        //                                 }}})
+        //         ){
+        //         console.log("Colidindo!!!")
+        //     }
+        // }
     
        
     }
@@ -153,7 +158,8 @@ class Coin {
 
     drawCoin() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(this.spriteCoin, this.coin.width*this.currentFrame, this.coin.height, 
+
+        ctx.drawImage(this.spriteCoin, 0, 0, 
                     this.coin.width, this.coin.height, 
                     this.coin.x, this.coin.y, 
                     this.coin.width, this.coin.height);
