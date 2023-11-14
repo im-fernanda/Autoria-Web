@@ -16,7 +16,6 @@ imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
 
-
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
 
@@ -35,11 +34,11 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
     new Background('imgs/Backgrounds/Florest1.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png')
 ]
 
-const door = new Door( {x:620, y:225, width:95, height:64}, 'imgs/door3.png');
+const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/door3.png');
 
-const moeda = new Coin({x:410, y:320, width:10, height:10}, 'imgs/Coin.png');
-const moeda2 = new Coin({x:450, y:300, width:10, height:10}, 'imgs/Coin.png');
-const moeda3 = new Coin({x:480, y:250, width:10, height:10}, 'imgs/Coin.png');
+const coin = new Coin({x:410, y:320, width:10, height:10}, 'imgs/Coin.png');
+const coin2 = new Coin({x:450, y:300, width:10, height:10}, 'imgs/Coin.png');
+const coin3 = new Coin({x:480, y:250, width:10, height:10}, 'imgs/Coin.png');
 
 
 
@@ -94,9 +93,9 @@ function updateGameArea() { // Atualiza a tela de jogo
         collisionBlock.update();
    })
 
-    moeda.updateCoin();
-    moeda2.updateCoin();
-    moeda3.updateCoin();
+    coin.updateCoin();
+    coin2.updateCoin();
+    coin3.updateCoin();
 }
 
 function keyDownHandler(e) { // Função ao apertar a tecla

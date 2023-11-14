@@ -35,11 +35,6 @@ class Player {
     update() {
         this.drawPlayer();
 
-        // this.frames++;
-        // if (this.frames > 5) {
-        //     this.frames = 0;
-        // }
-
         this.currentFrame = this.currentFrame % this.maxFrames;
 
         this.framesDawn++;
@@ -58,7 +53,7 @@ class Player {
         this.position.x += this.speed.x;
 
         this.applyGravity();
-      //  this.checkForVerticalCollisions();
+        this.checkForVerticalCollisions();
     }
 
     applyGravity(){
@@ -82,6 +77,10 @@ class Player {
             // Instrução para se colidir
             if(collision(currentPlayer, collisionBlock) ){
                 console.log("Colidindo!!!")
+                if (this.speed.y > 0){
+                    this.speed.y = 0;
+                    this.position.y = collisionBlock.position.y - this.height - 0.01;
+                }
             }
             
             }
