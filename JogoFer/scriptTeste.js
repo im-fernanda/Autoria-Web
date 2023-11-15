@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 const gravity = 0.5;
-let doorOpen = false; 
+let isDoorOpen = false; 
 
 RunRight = new Image();
 RunRight.src = 'Imgs/Player/Run.png';
@@ -19,10 +19,10 @@ imageJUMP.src = 'Imgs/Player/Jump.png';
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
 
-let currentPlayer = new Player({position:{x: 0, y:0}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+let currentPlayer = new Player({position:{x: 0, y:100}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
 
 const player = [
-    new Player({position:{x: 0, y:0}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:0}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight, onComplete: () => {console.log("completedAnimation")}}),
     new Player({position:{x: 0, y:150}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
     new Player({position:{x: 0, y:150}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
 ];
@@ -31,7 +31,7 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
     new Background('imgs/Backgrounds/Ruinas1.png'),
     new Background('imgs/Backgrounds/Temple1.png'),
     new Background('imgs/Backgrounds/Temple2Complete.png'),
-    new Background('imgs/Backgrounds/cenario1.png')
+    // new Background('imgs/Backgrounds/cenario1.png')
 ]
 
 const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/door3.png');
@@ -81,16 +81,29 @@ function updateGameArea() { // Atualiza a tela de jogo
         door.drawDoor();
         if (currentPlayer.position.x>150){
             door.updateDoor();
-            doorOpen = true;
+            isDoorOpen = true;
         }
    }
 
    currentPlayer.drawPlayer();
    currentPlayer.update();
 
+   if (indexBG==0){
    collisionBlocks1.forEach((collisionBlock) => {
         collisionBlock.update();
-   })
+        }
+    )} else if (indexBG==1){
+        collisionBlocks2.forEach((collisionBlock) => {
+             collisionBlock.update();
+             }
+         )
+    } else if (indexBG==2){
+        collisionBlocks3.forEach((collisionBlock) => {
+             collisionBlock.update();
+             }
+         )
+    }
+
 
     // coin1.updateCoin();
     // coin3.updateCoin();
@@ -108,9 +121,9 @@ function keyDownHandler(e) { // Função ao apertar a tecla
         currentPlayer.speed.y = -10;
         currentPlayer.jump();
     } else if (e.key === ' ') {
-        if (doorOpen){
+        // if (isDoorOpen){
             changeBackground();
-        }
+        // }
     }
 }
 

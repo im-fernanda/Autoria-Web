@@ -15,6 +15,8 @@ class Player {
         this.framesDawn = 0;
         this.maxFrames = 5;
 
+        // this.currentAnimation = this.Door.spriteDoor;
+
     }
     drawPlayer() {
         ctx.drawImage(this.spritePlayer, this.width * this.currentFrame, 0, 
@@ -41,6 +43,14 @@ class Player {
             this.framesDawn=0;
         } 
 
+        //Testando para mudança de BG
+        if (this.currentAnimation?.onComplete){
+            if (this.currentAnimation == this.framesDawn - 1 && !this.currentAnimation.isActive){
+                this.currentAnimation.onComplete();
+                this.currentAnimation = true;
+            }
+        }
+
         if (this.position.x < 0) {
             this.position.x = 0;
         }
@@ -57,28 +67,74 @@ class Player {
     }
 
     checkForHorizontalCollisions(){
-        for (let i=0; i<collisionBlocks1.length; i++){
-            const collisionBlock = collisionBlocks1[i];
-
-            // Instrução para se colidir
-            if(collision(currentPlayer, collisionBlock) ){
-                // console.log("Colidindo no eixo y!!!")
-
-                //Blocos abaixo
-                if (this.speed.x > 0){
-                    this.speed.x = 0;
-                    this.position.x = collisionBlock.position.x - this.width - 0.01;
-                    break;
-                }
-                //Blocos acima
-                if (this.speed.x < 0){
-                    this.speed.x = 0;
-                    this.position.x = collisionBlock.position.x + this.collisionBlock.width + 0.01;
-                    break;
-                }
-            }
+        if (indexBG==0){
+            for (let i=0; i<collisionBlocks1.length; i++){
+                const collisionBlock = collisionBlocks1[i];
             
+                // Instrução para se colidir
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo y!!!")
+
+                    //Blocos abaixo
+                    if (this.speed.x > 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x - this.width - 0.01;
+                        break;
+                    }
+                    //Blocos acima
+                    if (this.speed.x < 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;
+                        break;
+                    }
+                }
+                
+                }
+        } else if (indexBG==1){
+            for (let i=0; i<collisionBlocks2.length; i++){
+                const collisionBlock = collisionBlocks2[i];
+            
+                // Instrução para se colidir
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo y!!!")
+
+                    //Blocos abaixo
+                    if (this.speed.x > 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x - this.width - 0.01;
+                        break;
+                    }
+                    //Blocos acima
+                    if (this.speed.x < 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;
+                        break;
+                    }
+                }         
             }
+        } else if (indexBG==2){
+            for (let i=0; i<collisionBlocks3.length; i++){
+                const collisionBlock = collisionBlocks3[i];
+            
+                // Instrução para se colidir
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo y!!!")
+
+                    //Blocos abaixo
+                    if (this.speed.x > 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x - this.width - 0.01;
+                        break;
+                    }
+                    //Blocos acima
+                    if (this.speed.x < 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;
+                        break;
+                    }
+                }         
+            }
+        }
        
     }
 
@@ -88,29 +144,70 @@ class Player {
     }
 
     checkForVerticalCollisions(){
+        if (indexBG==0){ 
+            for (let i=0; i<collisionBlocks1.length; i++){
+                const collisionBlock = collisionBlocks1[i];   
+                // Instrução para se colidir
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo x!!!")
 
-        
-        for (let i=0; i<collisionBlocks1.length; i++){
-            const collisionBlock = collisionBlocks1[i];   
-            // Instrução para se colidir
-            if(collision(currentPlayer, collisionBlock) ){
-                // console.log("Colidindo no eixo x!!!")
-
-                //Blocos abaixo do player
-                if (this.speed.y > 0){
-                    this.speed.y = 0;
-                    this.position.y = collisionBlock.position.y - this.height - 0.01;
-                    break;
-                }
-                //Blocos acima do player
-                if (this.speed.y < 0){
-                    this.speed.y = 0;
-                    this.position.y = collisionBlock.position.y + this.collisionBlocks1.height + 0.01;
-                    break;
+                    //Blocos abaixo do player
+                    if (this.speed.y > 0){
+                        this.speed.y = 0;
+                        this.position.y = collisionBlock.position.y - this.height - 0.01;
+                        break;
                     }
-                }
-            }
-        
+                    //Blocos acima do player
+                    if (this.speed.y < 0){
+                        this.speed.y = 0;
+                        this.position.y = collisionBlock.position.y + this.collisionBlocks1.height + 0.01;
+                        break;
+                        }
+                    }
+                }     
+         } else if (indexBG==1){ 
+            for (let i=0; i<collisionBlocks2.length; i++){
+                const collisionBlock = collisionBlocks2[i];   
+                // Instrução para se colidir
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo x!!!")
+
+                    //Blocos abaixo do player
+                    if (this.speed.y > 0){
+                        this.speed.y = 0;
+                        this.position.y = collisionBlock.position.y - this.height - 0.01;
+                        break;
+                    }
+                    //Blocos acima do player
+                    if (this.speed.y < 0){
+                        this.speed.y = 0;
+                        this.position.y = collisionBlock.position.y + this.collisionBlocks2.height + 0.01;
+                        break;
+                        }
+                    }
+                }     
+         } else if (indexBG==2){ 
+            for (let i=0; i<collisionBlocks3.length; i++){
+                const collisionBlock = collisionBlocks3[i];   
+                // Instrução para se colidir
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo x!!!")
+
+                    //Blocos abaixo do player
+                    if (this.speed.y > 0){
+                        this.speed.y = 0;
+                        this.position.y = collisionBlock.position.y - this.height - 0.01;
+                        break;
+                    }
+                    //Blocos acima do player
+                    if (this.speed.y < 0){
+                        this.speed.y = 0;
+                        this.position.y = collisionBlock.position.y + this.collisionBlocks3.height + 0.01;
+                        break;
+                        }
+                    }
+                }     
+         }
     }
 }
 
