@@ -1,7 +1,7 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-const gravidade = 0.5;
+const gravity = 0.5;
 let doorOpen = false; 
 
 RunRight = new Image();
@@ -19,27 +19,26 @@ imageJUMP.src = 'Imgs/Player/Jump.png';
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
 
-let currentPlayer = new Player({position:{x: 0, y:0}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+let currentPlayer = new Player({position:{x: 0, y:0}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
 
 const player = [
-    new Player({position:{x: 0, y:40}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
-    new Player({position:{x: 0, y:150}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
-    new Player({position:{x: 0, y:150}, collisionBlocks, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
+    new Player({position:{x: 0, y:40}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
 ];
 
-
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
-    new Background('imgs/Backgrounds/Ruinas1.png', {x:500, y:200, width:50, height:50},'imgs/Money.png'),
-    new Background('imgs/Backgrounds/Temple1.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png'),
-    new Background('imgs/Backgrounds/Florest1.png', {x:500, y:200, width:50, height:50}, 'imgs/Coin.png')
+    new Background('imgs/Backgrounds/Ruinas1.png'),
+    new Background('imgs/Backgrounds/Temple1.png'),
+    new Background('imgs/Backgrounds/Temple2Complete.png'),
+    new Background('imgs/Backgrounds/cenario1.png')
 ]
 
 const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/door3.png');
 
-const coin = new Coin({x:410, y:320, width:10, height:10}, 'imgs/Coin.png');
+const coin1 = new Coin({x:420, y:320, width:10, height:10}, 'imgs/Coin.png');
 const coin2 = new Coin({x:450, y:300, width:10, height:10}, 'imgs/Coin.png');
-const coin3 = new Coin({x:480, y:250, width:10, height:10}, 'imgs/Coin.png');
-
+const coin3 = new Coin({x:480, y:280, width:10, height:10}, 'imgs/Coin.png');
 
 
 let indexBG = 0;
@@ -89,13 +88,12 @@ function updateGameArea() { // Atualiza a tela de jogo
    currentPlayer.drawPlayer();
    currentPlayer.update();
 
-   collisionBlocks.forEach((collisionBlock) => {
+   collisionBlocks1.forEach((collisionBlock) => {
         collisionBlock.update();
    })
 
-    coin.updateCoin();
-    coin2.updateCoin();
-    coin3.updateCoin();
+    // coin1.updateCoin();
+    // coin3.updateCoin();
 }
 
 function keyDownHandler(e) { // Função ao apertar a tecla
@@ -107,6 +105,7 @@ function keyDownHandler(e) { // Função ao apertar a tecla
         currentPlayer.speed.x = -5;
         currentPlayer.spritePlayer = RunLeft;
     } else if (e.key === 'ArrowUp') {
+        currentPlayer.speed.y = -10;
         currentPlayer.jump();
     } else if (e.key === ' ') {
         if (doorOpen){

@@ -1,7 +1,7 @@
 class Player {
-    constructor( {position, collisionBlocks, speed, width, height, image}) {
+    constructor( {position, collisionBlocks1, speed, width, height, image}) {
         this.position = position;
-        this.collisionBlocks = collisionBlocks;
+        this.collisionBlocks1 = collisionBlocks1;
         
         this.speed = speed;
         this.width = width;
@@ -9,10 +9,8 @@ class Player {
     
         this.isJumping = false;
 
-        // this.frames = 0;
         this.spritePlayer = image;
 
-        
         this.currentFrame = 0;
         this.framesDawn = 0;
         this.maxFrames = 5;
@@ -22,7 +20,7 @@ class Player {
         ctx.drawImage(this.spritePlayer, this.width * this.currentFrame, 0, 
                     this.width, this.height, 
                     this.position.x, this.position.y, //-60, 
-                    this.width, this.height);
+                    this.width-18, this.height-10);
     }
 
     jump() {
@@ -51,70 +49,93 @@ class Player {
         }
 
         this.position.x += this.speed.x;
+       // this.position.y += this.speed.y;
 
+        this.checkForHorizontalCollisions();
         this.applyGravity();
         this.checkForVerticalCollisions();
     }
 
-    applyGravity(){
-        this.position.y += this.speed.y;
+    checkForHorizontalCollisions(){
+        for (let i=0; i<collisionBlocks1.length; i++){
+            const collisionBlock = collisionBlocks1[i];
 
-        if (this.position.y + this.height >= canvas.height) {
-            this.position.y = canvas.height - this.height;
-            this.speed.y = 0;
-            this.isJumping = false;
-        } else {
-            this.speed.y += gravidade;
-        }
-    }
-
-    checkForVerticalCollisions(){
-        for (let i=0; i<collisionBlocks.length; i++){
-            const collisionBlock = collisionBlocks[i];
-            const positionY = collisionBlock.position.y;
-            console.log(positionY);
-            
             // Instrução para se colidir
             if(collision(currentPlayer, collisionBlock) ){
-                console.log("Colidindo!!!")
-                if (this.speed.y > 0){
-                    this.speed.y = 0;
-                    this.position.y = collisionBlock.position.y - this.height - 0.01;
+                // console.log("Colidindo no eixo y!!!")
+
+                //Blocos abaixo
+                if (this.speed.x > 0){
+                    this.speed.x = 0;
+                    this.position.x = collisionBlock.position.x - this.width - 0.01;
+                    break;
+                }
+                //Blocos acima
+                if (this.speed.x < 0){
+                    this.speed.x = 0;
+                    this.position.x = collisionBlock.position.x + this.collisionBlock.width + 0.01;
+                    break;
                 }
             }
             
             }
        
     }
+
+    applyGravity(){
+        this.speed.y += gravity;
+        this.position.y += this.speed.y;
+    }
+
+    checkForVerticalCollisions(){
+
+        
+        for (let i=0; i<collisionBlocks1.length; i++){
+            const collisionBlock = collisionBlocks1[i];   
+            // Instrução para se colidir
+            if(collision(currentPlayer, collisionBlock) ){
+                // console.log("Colidindo no eixo x!!!")
+
+                //Blocos abaixo do player
+                if (this.speed.y > 0){
+                    this.speed.y = 0;
+                    this.position.y = collisionBlock.position.y - this.height - 0.01;
+                    break;
+                }
+                //Blocos acima do player
+                if (this.speed.y < 0){
+                    this.speed.y = 0;
+                    this.position.y = collisionBlock.position.y + this.collisionBlocks1.height + 0.01;
+                    break;
+                    }
+                }
+            }
+        
+    }
 }
 
 
 class Background {
-    constructor(bgSrc, coin, coinSrc) {
+    constructor(bgSrc) {
         this.sprite = new Image();
         this.sprite.src = bgSrc;
-
-        this.coin = coin;
-        this.spriteCoin = new Image();
-        this.spriteCoin.src = coinSrc;
 
     }
 
     draw() { // Desenha o background
-        ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height)
+        ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height);
 
+        if (indexBG==0){
+            coin1.updateCoin();
+            coin2.updateCoin();
+            coin3.updateCoin();
+       } else if (indexBG==1){
+            coin2.updateCoin();
+            coin3.updateCoin();
+       }
 
-        // ctx.drawImage(this.spriteCoin, 0, 0, 
-        //                         this.coin.width, this.coin.height, 
-        //                         this.coin.x, this.coin.x, 
-        //                         50, 50);
-                            
-        // if (player.position.x == 100){
-        //     this.updateDoor();
-        // }
     }
 
-   
 }
 
 class Door{
