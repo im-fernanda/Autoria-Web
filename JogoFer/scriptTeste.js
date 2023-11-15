@@ -19,12 +19,12 @@ imageJUMP.src = 'Imgs/Player/Jump.png';
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
 
-let currentPlayer = new Player({position:{x: 0, y:100}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+let currentPlayer = new Player({position:{x: 0, y:100}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
 
 const player = [
-    new Player({position:{x: 0, y:0}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight, onComplete: () => {console.log("completedAnimation")}}),
-    new Player({position:{x: 0, y:150}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
-    new Player({position:{x: 0, y:150}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
+    new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight, onComplete: () => {console.log("completedAnimation")}}),
+    new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[1], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[2], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
 ];
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
@@ -84,25 +84,23 @@ function updateGameArea() { // Atualiza a tela de jogo
             isDoorOpen = true;
         }
    }
+//    updateCollisionBlocks(indexBG);
 
    currentPlayer.drawPlayer();
    currentPlayer.update();
 
    if (indexBG==0){
-   collisionBlocks1.forEach((collisionBlock) => {
+   ArrayCollisionBlocks[0].forEach((collisionBlock) => {
         collisionBlock.update();
-        }
-    )} else if (indexBG==1){
-        collisionBlocks2.forEach((collisionBlock) => {
-             collisionBlock.update();
-             }
-         )
+        })
+    } else if (indexBG==1){
+   ArrayCollisionBlocks[1].forEach((collisionBlock) => {
+    collisionBlock.update();
+    })
     } else if (indexBG==2){
-        collisionBlocks3.forEach((collisionBlock) => {
+        ArrayCollisionBlocks[2].forEach((collisionBlock) => {
              collisionBlock.update();
-             }
-         )
-    }
+    })}
 
 
     // coin1.updateCoin();

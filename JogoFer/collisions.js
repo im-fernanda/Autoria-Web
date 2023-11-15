@@ -104,74 +104,47 @@ const collisions3 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2109, 2109, 2109, 2109, 2109, 2109, 2109, 2109, 2109, 2109, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 
-//Cria um vetor com cada linha da matriz
-const collisionMap1 = [];
-for (let i = 0; i < collisions1.length; i += 62) {
-    collisionMap1.push(collisions1.slice(i, i + 62));
-};
+// Função para criar um vetor com cada linha da matriz original do Tiled
+function generateCollisionMap(collisions) {
+    const collisionMap = [];
+    for (let i = 0; i < collisions.length; i += 62) {
+        collisionMap.push(collisions.slice(i, i + 62));
+    }
+    return collisionMap;
+}
 
-// console.log(collisionMap1); //34 linhas
+//Cria um vetor para cada fase e junta em um array
+const ArrayCollisionMaps = [
+    generateCollisionMap(collisions1),
+    generateCollisionMap(collisions2),
+    generateCollisionMap(collisions3),
+];
 
-const collisionBlocks1 = [];
-//Localiza onde devem ser desenhados os blocos de colisões
-collisionMap1.forEach((row, y) => {
-    row.forEach((symbol, x) => {
-        if (symbol === 2109){
-            collisionBlocks1.push(new CollisionBlock( {position: {x: x*13, 
-                                                                 y: y*15} } ))
-        }
-    })
-})
+const blockHeights = [15, 16, 15]; // Adjust the array based on the block heights for each phase
 
-//Fase 2
-const collisionMap2 = [];
-for (let i = 0; i < collisions2.length; i += 62) {
-    collisionMap2.push(collisions2.slice(i, i + 62));
-};
+//Localiza onde devem ser desenhados os blocos de colisões de cada fase
+function generateCollisionBlocks(collisionMap1, blockHeight) {
+    const collisionBlocks = [];
+    collisionMap1.forEach((row, y) => {
+        row.forEach((symbol, x) => {
+            if (symbol === 2109) {
+                collisionBlocks.push(new CollisionBlock({
+                    position: { x: x * 13, y: y * blockHeight }
+                }));
+            }
+        });
+    });
+    return collisionBlocks;
+}
 
-const collisionBlocks2 = [];
-collisionMap2.forEach((row, y) => {
-    row.forEach((symbol, x) => {
-        if (symbol === 2109){
-            collisionBlocks2.push(new CollisionBlock( {position: {x: x*13, 
-                                                                 y: y*16} } ))
-        }
-    })
-})
+// const ArrayCollisionBlocks = [
+//     generateCollisionBlocks(collisionMap1, blockHeight[index]),
+//     generateCollisionBlocks(collisionMap2, blockHeight[index]),
+//     generateCollisionBlocks(collisionMap3, blockHeight[index]),
+// ];
 
+//Gera collisionBlocks de acordo com a fase
+const ArrayCollisionBlocks = ArrayCollisionMaps.map((collisionMap, index) => {
+    return generateCollisionBlocks(collisionMap, blockHeights[index]);
+});
 
-
-//Fase 3
-const collisionMap3 = [];
-for (let i = 0; i < collisions2.length; i += 62) {
-    collisionMap1.push(collisions2.slice(i, i + 62));
-};
-
-const collisionBlocks3 = [];
-collisionMap2.forEach((row, y) => {
-    row.forEach((symbol, x) => {
-        if (symbol === 2109){
-            collisionBlocks3.push(new CollisionBlock( {position: {x: x*13, 
-                                                                 y: y*15} } ))
-        }
-    })
-})
-
-// const ArrayCollisionMaps = []
-// for (let i=0; i<3; i++){
-//     for (let j = 0; j < collisionMap[i].length; j += 62) {
-//         ArrayCollisionMaps[i].push(collisionMap[j].slice(j, j + 62));
-//     }
-// }
-
-// const ArrayCollisionBlocks = [];
-// for (let indice = 0; indice<3; indice++){
-//     collisionMap[indice].forEach((row, y) => {
-//         row.forEach((symbol, x) => {
-//             if (symbol === 2109){
-//                 ArrayCollisionBlocks[indice].push(new CollisionBlock( {position: {x: x*13, 
-//                                                                      y: y*15} } ))
-//             }
-//         })
-//     })
-// }
