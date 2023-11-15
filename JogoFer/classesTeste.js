@@ -276,6 +276,9 @@ class Background {
        } else if (indexBG==1){
             coin2.updateCoin();
             coin3.updateCoin();
+
+            watermelon.updateFruit();
+            banana.updateFruit();
        }
 
     }

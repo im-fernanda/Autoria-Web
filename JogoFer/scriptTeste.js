@@ -57,6 +57,8 @@ const coin2 = new Coin({x:455, y:260, width:10, height:10}, 'imgs/Assets/Coin.pn
 const coin3 = new Coin({x:485, y:240, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
 
 const apple = new Fruit({x:485, y:240, width:32, height:32}, 'imgs/Assets/Apple.png', 16);
+const watermelon = new Fruit({x:520, y:240, width:32, height:32}, 'imgs/Assets/Melon.png', 16);
+const banana = new Fruit({x:485, y:240, width:32, height:32}, 'imgs/Assets/Bananas.png', 16);
 
 
 
