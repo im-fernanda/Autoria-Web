@@ -389,8 +389,8 @@ class Npc {
         this.maxFrames = 4;
     }
     drawNPC() {
-        ctx.drawImage(this.spriteNpc, 200, 100, 
-                    this.npc.width+50, this.npc.height+20, 
+        ctx.drawImage(this.spriteNpc, this.npc.width, this.npc.height, 
+                    this.npc.width, this.npc.height, 
                     this.npc.x, this.npc.y, 
                     this.npc.width, this.npc.height);
         }

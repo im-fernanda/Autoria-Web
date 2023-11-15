@@ -61,7 +61,6 @@ const watermelon = new Fruit({x:520, y:240, width:32, height:32}, 'imgs/Assets/M
 const banana = new Fruit({x:485, y:240, width:32, height:32}, 'imgs/Assets/Bananas.png', 16);
 
 
-
 let indexQuestion = 0;
 let dialog = false;
 let indexBG = 0;
