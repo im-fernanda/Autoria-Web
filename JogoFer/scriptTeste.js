@@ -15,7 +15,6 @@ StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
-
 // const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
 
 
@@ -31,7 +30,7 @@ const player = [
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
     new Background('imgs/Backgrounds/Ruinas1.png'),
-    new Background('imgs/Backgrounds/Temple1.png'),
+    new Background('imgs/Backgrounds/Temple1Complete.png'),
     new Background('imgs/Backgrounds/Temple2Complete.png'),
     new Background('imgs/Backgrounds/cenario1.png')
 ]
@@ -41,7 +40,6 @@ const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/door3.png');
 const coin1 = new Coin({x:420, y:320, width:10, height:10}, 'imgs/Coin.png');
 const coin2 = new Coin({x:450, y:300, width:10, height:10}, 'imgs/Coin.png');
 const coin3 = new Coin({x:480, y:280, width:10, height:10}, 'imgs/Coin.png');
-
 
 let indexBG = 0;
 let indexPlayer = 0;
@@ -102,11 +100,12 @@ function updateGameArea() { // Atualiza a tela de jogo
     } else if (indexBG==3){
         ArrayCollisionBlocks[3].forEach((collisionBlock) => {
             collisionBlock.update();
-        })}
+        })
+    }
         
     // coin1.updateCoin();
     // coin3.updateCoin();
-    
+
     currentPlayer.drawPlayer();
     currentPlayer.update();
 
