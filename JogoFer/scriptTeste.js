@@ -22,7 +22,7 @@ imageJUMP.src = 'Imgs/Player/Jump.png';
 let currentPlayer = new Player({position:{x: 0, y:0}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
 
 const player = [
-    new Player({position:{x: 0, y:40}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
+    new Player({position:{x: 0, y:0}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
     new Player({position:{x: 0, y:150}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
     new Player({position:{x: 0, y:150}, collisionBlocks1, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
 ];
@@ -63,7 +63,7 @@ function changeBackground() { // Função para trocar o background
             currentPlayer.position.y = 100;
             break;
         case 1:
-            currentPlayer.position.y = 100; 
+            currentPlayer.position.y = 300; 
             break;
         case 2:
             currentPlayer.position.y = 200;
