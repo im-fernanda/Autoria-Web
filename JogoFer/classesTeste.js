@@ -70,8 +70,75 @@ class Player {
         if (indexBG==0){
             for (let i=0; i<ArrayCollisionBlocks[0].length; i++){
                 const collisionBlock = ArrayCollisionBlocks[0][i];
+                // Instrução para se houver colisão
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo y!!!")
+
+                    //Blocos abaixo
+                    if (this.speed.x > 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x - this.width - 0.01;
+                        break;
+                    }
+                    //Blocos acima
+                    if (this.speed.x < 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;
+                        break;
+                    }
+                }
+                
+                }
+        } else if (indexBG==1){
+            for (let i=0; i<ArrayCollisionBlocks[1].length; i++){
+                const collisionBlock = ArrayCollisionBlocks[1][i];
             
-                // Instrução para se colidir
+                // Instrução para se houver colisão
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo y!!!")
+
+                    //Blocos abaixo
+                    if (this.speed.x > 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x - this.width - 0.01;
+                        break;
+                    }
+                    //Blocos acima
+                    if (this.speed.x < 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;
+                        break;
+                    }
+                }
+                
+                }
+        } else if (indexBG==2){
+            for (let i=0; i<ArrayCollisionBlocks[2].length; i++){
+                const collisionBlock = ArrayCollisionBlocks[2][i];
+            
+                // Instrução para se houver colisão
+                if(collision(currentPlayer, collisionBlock) ){
+                    // console.log("Colidindo no eixo y!!!")
+
+                    //Blocos abaixo
+                    if (this.speed.x > 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x - this.width - 0.01;
+                        break;
+                    }
+                    //Blocos acima
+                    if (this.speed.x < 0){
+                        this.speed.x = 0;
+                        this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;
+                        break;
+                    }
+                }  
+                }
+        } else if (indexBG==3){
+            for (let i=0; i<ArrayCollisionBlocks[3].length; i++){
+                const collisionBlock = ArrayCollisionBlocks[3][i];
+            
+                // Instrução para se houver colisão
                 if(collision(currentPlayer, collisionBlock) ){
                     // console.log("Colidindo no eixo y!!!")
 
@@ -91,51 +158,7 @@ class Player {
                 
                 }
             }
-        // } else if (indexBG==1){
-        //     for (let i=0; i<collisionBlocks2.length; i++){
-        //         const collisionBlock = collisionBlocks2[i];
-            
-        //         // Instrução para se colidir
-        //         if(collision(currentPlayer, collisionBlock) ){
-        //             // console.log("Colidindo no eixo y!!!")
 
-        //             //Blocos abaixo
-        //             if (this.speed.x > 0){
-        //                 this.speed.x = 0;
-        //                 this.position.x = collisionBlock.position.x - this.width - 0.01;
-        //                 break;
-        //             }
-        //             //Blocos acima
-        //             if (this.speed.x < 0){
-        //                 this.speed.x = 0;
-        //                 this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;
-        //                 break;
-        //             }
-        //         }         
-        //     }
-        // } else if (indexBG==2){
-        //     for (let i=0; i<collisionBlocks3.length; i++){
-        //         const collisionBlock = collisionBlocks3[i];
-            
-        //         // Instrução para se colidir
-        //         if(collision(currentPlayer, collisionBlock) ){
-        //             // console.log("Colidindo no eixo y!!!")
-
-        //             //Blocos abaixo
-        //             if (this.speed.x > 0){
-        //                 this.speed.x = 0;
-        //                 this.position.x = collisionBlock.position.x - this.width - 0.01;
-        //                 break;
-        //             }
-        //             //Blocos acima
-        //             if (this.speed.x < 0){
-        //                 this.speed.x = 0;
-        //                 this.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;
-        //                 break;
-        //             }
-        //         }         
-        //     }
-        // }
        
     }
 
@@ -148,7 +171,7 @@ class Player {
         if (indexBG==0){ 
             for (let i=0; i<ArrayCollisionBlocks[0].length; i++){
                 const collisionBlock = ArrayCollisionBlocks[0][i];   
-                // Instrução para se colidir
+                // Instrução para se houver colisão
                 if(collision(currentPlayer, collisionBlock) ){
                     // console.log("Colidindo no eixo x!!!")
 
@@ -166,6 +189,69 @@ class Player {
                         }
                     }
                 }     
+            } else if (indexBG==1){ 
+                for (let i=0; i<ArrayCollisionBlocks[1].length; i++){
+                    const collisionBlock = ArrayCollisionBlocks[1][i];   
+                    // Instrução para se houver colisão
+                    if(collision(currentPlayer, collisionBlock) ){
+                        // console.log("Colidindo no eixo x!!!")
+    
+                        //Blocos abaixo do player
+                        if (this.speed.y > 0){
+                            this.speed.y = 0;
+                            this.position.y = collisionBlock.position.y - this.height - 0.01;
+                            break;
+                        }
+                        //Blocos acima do player
+                        if (this.speed.y < 0){
+                            this.speed.y = 0;
+                            this.position.y = collisionBlock.position.y + this.ArrayCollisionBlocks[1].height + 0.01;
+                            break;
+                            }
+                        }
+                    }     
+            } else if (indexBG==2){ 
+                for (let i=0; i<ArrayCollisionBlocks[2].length; i++){
+                    const collisionBlock = ArrayCollisionBlocks[2][i];   
+                    // Instrução para se houver colisão
+                    if(collision(currentPlayer, collisionBlock) ){
+                        // console.log("Colidindo no eixo x!!!")
+    
+                        //Blocos abaixo do player
+                        if (this.speed.y > 0){
+                            this.speed.y = 0;
+                            this.position.y = collisionBlock.position.y - this.height - 0.01;
+                            break;
+                        }
+                        //Blocos acima do player
+                        if (this.speed.y < 0){
+                            this.speed.y = 0;
+                            this.position.y = collisionBlock.position.y + this.ArrayCollisionBlocks[2].height + 0.01;
+                            break;
+                            }
+                        }
+                    }     
+            } else if (indexBG==3){ 
+                for (let i=0; i<ArrayCollisionBlocks[3].length; i++){
+                    const collisionBlock = ArrayCollisionBlocks[3][i];   
+                    // Instrução para se houver colisão
+                    if(collision(currentPlayer, collisionBlock) ){
+                        // console.log("Colidindo no eixo x!!!")
+    
+                        //Blocos abaixo do player
+                        if (this.speed.y > 0){
+                            this.speed.y = 0;
+                            this.position.y = collisionBlock.position.y - this.height - 0.01;
+                            break;
+                        }
+                        //Blocos acima do player
+                        if (this.speed.y < 0){
+                            this.speed.y = 0;
+                            this.position.y = collisionBlock.position.y + this.ArrayCollisionBlocks[3].height + 0.01;
+                            break;
+                            }
+                        }
+                    }     
             }
         }
 }
