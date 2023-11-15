@@ -47,14 +47,18 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
     new Background('imgs/Backgrounds/cenario1.png')
 ]
 
-const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/door3.png');
+const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/Assets/door3.png');
 
 // const guard = new Npc({x:630, y:228, width:48, height:64}, 'imgs/NPC/guard.png');
 const guard = new Npc({npc: {x:230, y:208, width:100, height:100}, npcSrc: 'imgs/NPC/guard.png'});
 
-const coin1 = new Coin({x:420, y:280, width:10, height:10}, 'imgs/Coin.png');
-const coin2 = new Coin({x:455, y:260, width:10, height:10}, 'imgs/Coin.png');
-const coin3 = new Coin({x:485, y:240, width:10, height:10}, 'imgs/Coin.png');
+const coin1 = new Coin({x:420, y:280, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
+const coin2 = new Coin({x:455, y:260, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
+const coin3 = new Coin({x:485, y:240, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
+
+const apple = new Fruit({x:485, y:240, width:32, height:32}, 'imgs/Assets/Apple.png', 16);
+
+
 
 let indexQuestion = 0;
 let dialog = false;

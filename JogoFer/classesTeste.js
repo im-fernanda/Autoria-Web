@@ -271,6 +271,8 @@ class Background {
             coin1.updateCoin();
             coin2.updateCoin();
             coin3.updateCoin();
+
+            apple.updateFruit();
        } else if (indexBG==1){
             coin2.updateCoin();
             coin3.updateCoin();
@@ -313,14 +315,14 @@ class Door{
 
 
 class Coin {
-    constructor(coin, coinSrc){
+    constructor(coin, coinSrc, maxFrames){
         this.coin = coin;
         this.spriteCoin = new Image();
         this.spriteCoin.src = coinSrc;
 
         this.currentFrame = 0;
         this.framesDawn = 0;
-        this.maxFrames = 4;
+        this.maxFrames = maxFrames;
     }
     drawCoin() {
         ctx.drawImage(this.spriteCoin, this.coin.width*this.currentFrame, 0, 
@@ -333,13 +335,44 @@ class Coin {
         this.currentFrame = this.currentFrame % this.maxFrames;
 
         this.framesDawn++;
-        if (this.framesDawn>=4){
+        if (this.framesDawn>=6){
             this.currentFrame++;
             this.framesDawn=0;
         } 
 
     }
 }
+
+
+class Fruit {
+    constructor(coin, coinSrc, maxFrames){
+        this.coin = coin;
+        this.spriteCoin = new Image();
+        this.spriteCoin.src = coinSrc;
+
+        this.currentFrame = 0;
+        this.framesDawn = 0;
+        this.maxFrames = maxFrames;
+    }
+    drawFruit() {
+        ctx.drawImage(this.spriteCoin, this.coin.width*this.currentFrame, 0, 
+                    this.coin.width, this.coin.height, 
+                    this.coin.x, this.coin.y, 
+                    this.coin.width, this.coin.height);
+    }
+    updateFruit() {
+        this.drawFruit();
+        this.currentFrame = this.currentFrame % this.maxFrames;
+
+        this.framesDawn++;
+        if (this.framesDawn>=3){
+            this.currentFrame++;
+            this.framesDawn=0;
+        } 
+
+    }
+}
+
 
 class Npc {
     constructor(npc, npcSrc){
