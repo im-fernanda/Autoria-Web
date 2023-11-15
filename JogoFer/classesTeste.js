@@ -32,7 +32,7 @@ class Player {
         }
     }
 
-    update() {
+    updatePlayer() {
         this.drawPlayer();
 
         this.currentFrame = this.currentFrame % this.maxFrames;
@@ -59,8 +59,8 @@ class Player {
         }
 
         this.position.x += this.speed.x;
-       // this.position.y += this.speed.y;
 
+        // if()
         this.checkForHorizontalCollisions();
         this.applyGravity();
         this.checkForVerticalCollisions();
@@ -295,7 +295,6 @@ class Door{
         this.framesDawn = 0;
         this.maxFrames = 4;
     }
-
     drawDoor(){
         ctx.drawImage(this.spriteDoor, 0, this.door.height * this.currentFrame,
             this.door.width, this.door.height, 
@@ -307,11 +306,11 @@ class Door{
         this.currentFrame = this.currentFrame % this.maxFrames;
 
         this.framesDawn++;
-        if (this.framesDawn>=70){
+        if (this.framesDawn>=200){
             this.currentFrame++;
             this.framesDawn=0;
         } 
-
+ 
 
     }
 }
@@ -377,24 +376,24 @@ class Fruit {
 }
 
 
-class Npc {
-    constructor(npc, npcSrc){
-        this.npc = npc;
+// class Npc {
+//     constructor(npc, npcSrc){
+//         this.npc = npc;
 
-        this.spriteNpc = new Image();
-        this.spriteNpc.src = npcSrc;
+//         this.spriteNpc = new Image();
+//         this.spriteNpc.src = npcSrc;
 
-        this.currentFrame = 0;
-        this.framesDawn = 0;
-        this.maxFrames = 4;
-    }
-    drawNPC() {
-        ctx.drawImage(this.spriteNpc, this.npc.width, this.npc.height, 
-                    this.npc.width, this.npc.height, 
-                    this.npc.x, this.npc.y, 
-                    this.npc.width, this.npc.height);
-        }
-    }
+//         this.currentFrame = 0;
+//         this.framesDawn = 0;
+//         this.maxFrames = 4;
+//     }
+//     drawNPC() {
+//         ctx.drawImage(this.spriteNpc, this.npc.width, this.npc.height, 
+//                     this.npc.width, this.npc.height, 
+//                     this.npc.x, this.npc.y, 
+//                     this.npc.width, this.npc.height);
+//         }
+//     }
 
 //     updateNPC(){
 //         this.drawNPC();

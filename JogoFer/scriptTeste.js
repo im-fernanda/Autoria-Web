@@ -15,10 +15,13 @@ StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
 
-// const player = new Player( {position:{x: 0, y:100}, speed:{x:0, y:0}, width: 128, height: 130, image: StandRight} );
-
 
 let currentPlayer = new Player({position:{x: 0, y:100}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+
+imageGUARDA = new Image();
+imageGUARDA.src = 'Imgs/Player/Guarda.png';
+
+let player2 = new Player({position:{x: 670, y:205}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: imageGUARDA});
 
 const answers = [
     '17',
@@ -49,8 +52,7 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
 
 const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/Assets/door3.png');
 
-// const guard = new Npc({x:630, y:228, width:48, height:64}, 'imgs/NPC/guard.png');
-const guard = new Npc({npc: {x:230, y:208, width:100, height:100}, npcSrc: 'imgs/NPC/guard.png'});
+// const guard = new Npc({npc: {x:640, y:228, width:100, height:100}, npcSrc: 'imgs/NPC/guard.png'});
 
 const coin1 = new Coin({x:420, y:280, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
 const coin2 = new Coin({x:455, y:260, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
@@ -122,7 +124,7 @@ function updateGameArea() { // Atualiza a tela de jogo
     bg[indexBG].draw();
     if(indexBG==0){
         door.drawDoor();
-        if (currentPlayer.position.x>150){
+        if (currentPlayer.position.x>450){
             door.updateDoor();
             isDoorOpen = true;
         }
@@ -140,9 +142,11 @@ function updateGameArea() { // Atualiza a tela de jogo
                 incorrect = true;
             }
         } while (answer != answers[indexQuestion]);
+
         incorrect = false;
         alert('Resposta Correta!');
         changeBackground();
+
     }
 
     }
@@ -167,12 +171,16 @@ function updateGameArea() { // Atualiza a tela de jogo
         
     // coin1.updateCoin();
     // coin3.updateCoin();
-    guard.spriteNpc.onload = function() {
-        // Agora é seguro desenhar a imagem no canvas
-        guard.drawNPC();
-    };
-    currentPlayer.drawPlayer();
-    currentPlayer.update();
+    
+    // guard.spriteNpc.onload = function() {
+    //     // Agora é seguro desenhar a imagem no canvas
+    //     guard.drawNPC();
+    // };
+    currentPlayer.updatePlayer();
+
+    player2.drawPlayer();
+    // player2.update();
+
 
 
 }
@@ -189,9 +197,7 @@ function keyDownHandler(e) { // Função ao apertar a tecla
         currentPlayer.speed.y = -10;
         currentPlayer.jump();
     } else if (e.key === ' ') {
-        // if (isDoorOpen){
             changeBackground();
-        // }
     } else if (e.key === 'Enter'){
         flag = true;
     }
