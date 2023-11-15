@@ -289,7 +289,6 @@ class Door{
         this.currentFrame = 0;
         this.framesDawn = 0;
         this.maxFrames = 4;
-
     }
 
     drawDoor(){
@@ -323,14 +322,12 @@ class Coin {
         this.framesDawn = 0;
         this.maxFrames = 4;
     }
-
     drawCoin() {
         ctx.drawImage(this.spriteCoin, this.coin.width*this.currentFrame, 0, 
                     this.coin.width, this.coin.height, 
                     this.coin.x, this.coin.y, 
                     this.coin.width*1.5, this.coin.height*1.5);
     }
-
     updateCoin() {
         this.drawCoin();
         this.currentFrame = this.currentFrame % this.maxFrames;
@@ -342,9 +339,40 @@ class Coin {
         } 
 
     }
-
-
 }
+
+class Npc {
+    constructor(npc, npcSrc){
+        this.npc = npc;
+
+        this.spriteNpc = new Image();
+        this.spriteNpc.src = npcSrc;
+
+        this.currentFrame = 0;
+        this.framesDawn = 0;
+        this.maxFrames = 4;
+    }
+    drawNPC() {
+        ctx.drawImage(this.spriteNpc, 200, 100, 
+                    this.npc.width+50, this.npc.height+20, 
+                    this.npc.x, this.npc.y, 
+                    this.npc.width, this.npc.height);
+        }
+    }
+
+//     updateNPC(){
+//         this.drawNPC();
+
+//         this.currentFrame = this.currentFrame % this.maxFrames;
+
+//         this.framesDawn++;
+//         if (this.framesDawn>=3){
+//             this.currentFrame++;
+//             this.framesDawn=0;
+//         } 
+// }
+
+
 
 
 
