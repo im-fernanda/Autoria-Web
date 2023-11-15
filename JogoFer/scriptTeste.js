@@ -33,7 +33,7 @@ const questions = [
 ];
 
 const player = [
-    new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight, onComplete: () => {console.log("completedAnimation")}}),
+    new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
     new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[1], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
     new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[2], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
     new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[3], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
