@@ -3,6 +3,18 @@ const ctx = canvas.getContext('2d');
 
 const gravity = 0.5;
 let isDoorOpen = false; 
+let indexFruits = 0;
+let indexQuestion = 0;
+let dialog = false;
+let indexBG = 0;
+let indexPlayer = 0;
+let answer;
+let flag = false;
+let incorrect = false;
+let dead = false;
+let scoreboard = document.getElementById('points');
+let points = 0;
+let stringPoints;
 
 RunRight = new Image();
 RunRight.src = 'Imgs/Player/Run.png';
@@ -14,33 +26,22 @@ StandLeft = new Image();
 StandLeft.src = 'Imgs/Player/IdleLeft.png';
 imageJUMP = new Image();
 imageJUMP.src = 'Imgs/Player/Jump.png';
+imageDead = new Image();
+imageDead.src = 'imgs/PLayer/Dead.png';
+imageGUARD = new Image();
+imageGUARD.src = 'Imgs/Player/GUARD.png';
 
 
-let currentPlayer = new Player({position:{x: 0, y:100}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight});
+let currentPlayer = new Player({position:{x: 0, y:100}, collisionBlocks: ArrayCollisionBlocks[0], width: 128, height: 130, image: StandRight, maxFrames:5, frameBuffer: 6});
+const npc = new Player({position:{x: 670, y:205}, collisionBlocks: ArrayCollisionBlocks[0], width: 128, height: 130, image: imageGUARD, maxFrames:4, frameBuffer: 10});
+const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/Assets/door3.png');
+const fireworks = new Fireworks({x:200, y:300, width:66, height:84}, 'imgs/Assets/Explosion', 80);
 
-imageGUARDA = new Image();
-imageGUARDA.src = 'Imgs/Player/Guarda.png';
-
-let player2 = new Player({position:{x: 670, y:205}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: imageGUARDA});
-
-const answers = [
-    '17',
-    '4',
-    '2'
-];
-
-const questions = [
-    '7 + x = 24',
-    '2^x = 16',
-    '3^x + 2x = 13'
-];
-
-const player = [
-    new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[0], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
-    new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[1], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
-    new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[2], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight}),
-    new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[3], speed:{x:0, y:0}, width: 128, height: 130, image: StandRight})
-
+const player = [ // Vetor dde players para facilitar a troca de colisões
+    new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[0], width: 128, height: 130, image: StandRight, maxFrames:6}),
+    new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[1], width: 128, height: 130, image: StandRight, maxFrames:6}),
+    new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[2], width: 128, height: 130, image: StandRight, maxFrames:6}),
+    new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[3], width: 128, height: 130, image: StandRight, maxFrames:6})
 ];
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
@@ -50,26 +51,45 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
     new Background('imgs/Backgrounds/cenario1.png')
 ]
 
-const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/Assets/door3.png');
+const questions = [
+    '2^x = 16?',
+    'Δ = x^2 + (6*6)x?',
+    'Cos(π)?'
+];
 
-// const guard = new Npc({npc: {x:640, y:228, width:100, height:100}, npcSrc: 'imgs/NPC/guard.png'});
+const answers = [
+    '4',
+    '36',
+    '-1'
+];
 
-const coin1 = new Coin({x:420, y:280, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
-const coin2 = new Coin({x:455, y:260, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
-const coin3 = new Coin({x:485, y:240, width:10, height:10}, 'imgs/Assets/Coin.png', 4);
+let coins = [
+    new Coin({x:420, y:280, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:450, y:260, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:485, y:240, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:600, y:300, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:600, y:200, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:600, y:100, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
 
-const apple = new Fruit({x:485, y:240, width:32, height:32}, 'imgs/Assets/Apple.png', 16);
-const watermelon = new Fruit({x:520, y:240, width:32, height:32}, 'imgs/Assets/Melon.png', 16);
-const banana = new Fruit({x:485, y:240, width:32, height:32}, 'imgs/Assets/Bananas.png', 16);
+];
 
+let fruits = [
+    new Fruit({x:400, y:250, width:32, height:32}, 'imgs/Assets/Bananas.png', 16),
+    new Fruit({x:180, y:350, width:32, height:32}, 'imgs/Assets/Bananas.png', 16),
+    new Fruit({x:360, y:250, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
+    new Fruit({x:320, y:270, width:32, height:32}, 'imgs/Assets/Melon.png', 16),
+    new Fruit({x:450, y:132, width:32, height:32}, 'imgs/Assets/Bananas.png', 16),
+    new Fruit({x:540, y:200, width:32, height:32}, 'imgs/Assets/Melon.png', 16),
+    new Fruit({x:188, y:132, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
+    new Fruit({x:208, y:132, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
+    new Fruit({x:228, y:132, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
+    new Fruit({x:500, y:170, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
 
-let indexQuestion = 0;
-let dialog = false;
-let indexBG = 0;
-let indexPlayer = 0;
-let answer;
-let flag = false;
-let incorrect = false;
+]
+
+function placar(){
+    
+}
 
 function showPrompt(){
     if(incorrect){
@@ -81,8 +101,8 @@ function showPrompt(){
 }
 
 function showDialog(msg) {
-    const boxWidth = 200;
-    const boxHeight = 40;
+    const boxWidth = 180;
+    const boxHeight = 50;
     const borderWidth = 3; // Largura da borda
 
     // Desenha a borda preta
@@ -105,16 +125,12 @@ function changeBackground() { // Função para trocar o background
         dialog = false;
         indexQuestion++;
     } 
-    // else {
-    //     indexBG = 0; //Fazer instruções para fim de jogo
-    // }
 
     currentPlayer = player[indexPlayer];
 
     if(indexPlayer < bg.length-1){
         indexPlayer++;
     } 
-
 }
 
 
@@ -129,6 +145,20 @@ function updateGameArea() { // Atualiza a tela de jogo
             isDoorOpen = true;
         }
    }
+
+   if(indexBG == 2){
+        if(currentPlayer.position.x > 458 && currentPlayer.position.y > 349){
+            currentPlayer.spritePlayer = imageDead;
+            dead = true;
+        }
+        if(dead){
+            currentPlayer.position.x = 0;
+            currentPlayer.position.y = 150;
+            dialog = false;
+            dead = false;
+            currentPlayer.spritePlayer = StandRight;
+        }
+    }
 
    if(currentPlayer.position.x > canvas.width - 210){
         dialog = true;
@@ -168,55 +198,17 @@ function updateGameArea() { // Atualiza a tela de jogo
             collisionBlock.update();
         })
     }
-        
-    // coin1.updateCoin();
-    // coin3.updateCoin();
-    
+           
     // guard.spriteNpc.onload = function() {
     //     // Agora é seguro desenhar a imagem no canvas
     //     guard.drawNPC();
     // };
     currentPlayer.updatePlayer();
-
-    player2.drawPlayer();
-    // player2.update();
-
-
-
-}
-
-function keyDownHandler(e) { // Função ao apertar a tecla
-    console.log(e.key);
-    if (e.key === 'ArrowRight') {
-        currentPlayer.speed.x = 5;
-        currentPlayer.spritePlayer = RunRight;
-    } else if (e.key === 'ArrowLeft') {
-        currentPlayer.speed.x = -5;
-        currentPlayer.spritePlayer = RunLeft;
-    } else if (e.key === 'ArrowUp') {
-        currentPlayer.speed.y = -10;
-        currentPlayer.jump();
-    } else if (e.key === ' ') {
-            changeBackground();
-    } else if (e.key === 'Enter'){
-        flag = true;
+    if(indexBG==0){
+        npc.updatePlayer();
     }
 }
 
-function keyUpHandler(e) { // Função ao soltar a tecla
-    if (e.key === 'ArrowRight') {
-        currentPlayer.speed.x = 0;
-        currentPlayer.spritePlayer = StandRight;
-    } else if (e.key === 'ArrowLeft') {
-        currentPlayer.speed.x = 0;
-        currentPlayer.spritePlayer = StandLeft;
-    } else if (e.key === 'Enter'){
-        flag = false;
-    }
-}
-
-document.addEventListener('keydown', keyDownHandler);
-document.addEventListener('keyup', keyUpHandler);
 
 function gameLoop() {
     updateGameArea();

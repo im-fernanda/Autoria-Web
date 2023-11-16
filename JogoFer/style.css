@@ -7,3 +7,13 @@
     /* width: 778px;
     height: 625px; */
 }
+
+.scoreboard{
+    display: flex;
+    margin-top: 150px;
+    margin-left: 40px;
+}
+
+#points{
+    margin-left: 10px;
+}
