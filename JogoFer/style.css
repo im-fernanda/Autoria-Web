@@ -8,12 +8,23 @@
     height: 625px; */
 }
 
-.scoreboard{
+/* .scoreboard{
     display: flex;
     margin-top: 150px;
     margin-left: 40px;
 }
 
-#points{
+#score{
     margin-left: 10px;
+} */
+
+@font-face {
+    font-family: 'Uncial Antiqua';
+    src: url('Data/UncialAntiqua-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Uncial Antiqua', sans-serif; /* Use 'Uncial Antiqua' como fonte padrão */
 }

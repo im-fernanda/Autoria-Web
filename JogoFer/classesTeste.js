@@ -264,14 +264,15 @@ class Player {
 
 
 class Background {
-    constructor(bgSrc) {
+    constructor(bgSrc, score) {
         this.sprite = new Image();
         this.sprite.src = bgSrc;
+
     }
 
     draw() { // Desenha o background
         ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height);
-        
+
         if (indexBG==0){
             coins[0].updateCoin();
             coins[1].updateCoin();
@@ -291,16 +292,14 @@ class Background {
             fruits[8].updateFruit();
             fruits[9].updateFruit();
 
-
             coins[3].updateCoin();
             coins[4].updateCoin();
             coins[5].updateCoin();
 
         } else if (indexBG==3){
-            fireworks.updateFireworks();
+            // fireworks.updateFireworks();
             // fogos.
         }
-
     }
 
 }
@@ -331,10 +330,7 @@ class Door{
             this.framesDawn=0;
         }
     }
-
-
 }
-
 
 class Coin {
     constructor(coin, coinSrc, maxFrames){
@@ -429,36 +425,6 @@ class Fireworks{
 }
 
 
-// class Npc {
-//     constructor(npc, npcSrc){
-//         this.npc = npc;
-
-//         this.spriteNpc = new Image();
-//         this.spriteNpc.src = npcSrc;
-
-//         this.currentFrame = 0;
-//         this.framesDawn = 0;
-//         this.maxFrames = 4;
-//     }
-//     drawNPC() {
-//         ctx.drawImage(this.spriteNpc, this.npc.width, this.npc.height, 
-//                     this.npc.width, this.npc.height, 
-//                     this.npc.x, this.npc.y, 
-//                     this.npc.width, this.npc.height);
-//         }
-//     }
-
-//     updateNPC(){
-//         this.drawNPC();
-
-//         this.currentFrame = this.currentFrame % this.maxFrames;
-
-//         this.framesDawn++;
-//         if (this.framesDawn>=3){
-//             this.currentFrame++;
-//             this.framesDawn=0;
-//         } 
-// }
 
 
 
