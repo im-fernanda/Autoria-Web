@@ -264,10 +264,9 @@ class Player {
 
 
 class Background {
-    constructor(bgSrc, score) {
+    constructor(bgSrc) {
         this.sprite = new Image();
         this.sprite.src = bgSrc;
-
     }
 
     draw() { // Desenha o background

@@ -35,7 +35,7 @@ imageGUARD.src = 'Imgs/Player/GUARD.png';
 let currentPlayer = new Player({position:{x: 0, y:100}, collisionBlocks: ArrayCollisionBlocks[0], width: 128, height: 130, image: StandRight, maxFrames:5, frameBuffer: 6});
 const npc = new Player({position:{x: 670, y:205}, collisionBlocks: ArrayCollisionBlocks[0], width: 128, height: 130, image: imageGUARD, maxFrames:4, frameBuffer: 10});
 
-const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/Assets/door3.png');
+const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/Assets/Door.png');
 const fireworks = new Fireworks({x:200, y:300, width:66, height:84}, 'imgs/Assets/Explosion.png', 80);
 
 const player = [ // Vetor dde players para facilitar a troca de colisões
@@ -74,7 +74,6 @@ let fruits = [
     new Fruit({x:208, y:132, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
     new Fruit({x:228, y:132, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
     new Fruit({x:500, y:170, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
-    
 ]
 
 const questions = [
@@ -90,7 +89,7 @@ const answers = [
 ];
 
 function drawScore(){
-    ctx.font = '30px Uncial Antiqua';
+    ctx.font = '25px Uncial Antiqua';
     ctx.textAlign = 'left';
     ctx.fillStyle = 'white';
     ctx.fillText('Score: ' + score, 20, 50);
@@ -137,7 +136,6 @@ function changeBackground() { // Função para trocar o background
         indexPlayer++;
     } 
 }
-
 
 function updateGameArea() { // Atualiza a tela de jogo
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -215,7 +213,6 @@ function updateGameArea() { // Atualiza a tela de jogo
         npc.updatePlayer();
     }
 }
-
 
 function gameLoop() {
     updateGameArea();

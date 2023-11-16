@@ -1,9 +1,9 @@
 class Player {
-    constructor( {position, collisionBlocks, speed, width, height, image}) {
+    constructor( {position, collisionBlocks, width, height, image, maxFrames, frameBuffer}) {
         this.position = position;
         this.collisionBlocks = collisionBlocks;
         
-        this.speed = speed;
+        this.speed = {x:0, y:0 }
         this.width = width;
         this.height = height;
     
@@ -13,9 +13,8 @@ class Player {
 
         this.currentFrame = 0;
         this.framesDawn = 0;
-        this.maxFrames = 5;
-
-        // this.currentAnimation = this.Door.spriteDoor;
+        this.frameBuffer = frameBuffer;
+        this.maxFrames = maxFrames;
 
     }
     drawPlayer() {
@@ -24,32 +23,18 @@ class Player {
                     this.position.x, this.position.y, //-60, 
                     this.width-18, this.height-10);
     }
-
-    jump() {
-        if (!this.isJumping) { //Ao soltar a tecla up
-            this.speed.y = -10;
-            this.isJumping = true;
-        }
-    }
-
-    update() {
+    updatePlayer() {
         this.drawPlayer();
-
-        this.currentFrame = this.currentFrame % this.maxFrames;
-
+        
         this.framesDawn++;
-        if (this.framesDawn>=6){
-            this.currentFrame++;
-            this.framesDawn=0;
-        } 
-
-        //Testando para mudança de BG
-        // if (this.currentAnimation?.onComplete){
-        //     if (this.currentAnimation == this.framesDawn - 1 && !this.currentAnimation.isActive){
-        //         this.currentAnimation.onComplete();
-        //         this.currentAnimation = true;
-        //     }
-        // }
+        if(this.framesDawn % this.frameBuffer == 0){
+        
+            if (this.currentFrame<this.maxFrames){
+                this.currentFrame++
+            } else {
+                this.currentFrame = 0;
+            }
+        }
 
         if (this.position.x < 0) {
             this.position.x = 0;
@@ -57,15 +42,20 @@ class Player {
         if (this.position.x + this.width > canvas.width) {
             this.position.x = canvas.width - this.width;
         }
-
+        
         this.position.x += this.speed.x;
-       // this.position.y += this.speed.y;
-
+        
         this.checkForHorizontalCollisions();
         this.applyGravity();
         this.checkForVerticalCollisions();
     }
-
+    
+    jump() {
+        if (!this.isJumping) { //Ao soltar a tecla up
+            this.speed.y = -10;
+            this.isJumping = true;
+        }
+    }
     checkForHorizontalCollisions(){
         if (indexBG==0){
             for (let i=0; i<ArrayCollisionBlocks[0].length; i++){
@@ -188,6 +178,22 @@ class Player {
                         break;
                         }
                     }
+                if(collision(npc, collisionBlock) ){
+                        // console.log("Colidindo no eixo x!!!")
+    
+                        //Blocos abaixo do player
+                        if (this.speed.y > 0){
+                            this.speed.y = 0;
+                            this.position.y = collisionBlock.position.y - this.height - 0.01;
+                            break;
+                        }
+                        //Blocos acima do player
+                        if (this.speed.y < 0){
+                            this.speed.y = 0;
+                            this.position.y = collisionBlock.position.y + this.ArrayCollisionBlocks[0].height + 0.01;
+                            break;
+                            }
+                        }
                 }     
             } else if (indexBG==1){ 
                 for (let i=0; i<ArrayCollisionBlocks[1].length; i++){
@@ -258,7 +264,7 @@ class Player {
 
 
 class Background {
-    constructor(bgSrc) {
+    constructor(bgSrc, score) {
         this.sprite = new Image();
         this.sprite.src = bgSrc;
 
@@ -268,14 +274,32 @@ class Background {
         ctx.drawImage(this.sprite, 0, 0, canvas.width, canvas.height);
 
         if (indexBG==0){
-            coin1.updateCoin();
-            coin2.updateCoin();
-            coin3.updateCoin();
-       } else if (indexBG==1){
-            coin2.updateCoin();
-            coin3.updateCoin();
-       }
+            coins[0].updateCoin();
+            coins[1].updateCoin();
+            coins[2].updateCoin();
+            
+        } else if (indexBG==1){
+            fruits[0].updateFruit();
+            fruits[1].updateFruit();
+            fruits[2].updateFruit();
+            fruits[3].updateFruit();    
 
+        } else if (indexBG==2){
+            fruits[4].updateFruit();    
+            fruits[5].updateFruit();
+            fruits[6].updateFruit();
+            fruits[7].updateFruit();
+            fruits[8].updateFruit();
+            fruits[9].updateFruit();
+
+            coins[3].updateCoin();
+            coins[4].updateCoin();
+            coins[5].updateCoin();
+
+        } else if (indexBG==3){
+            // fireworks.updateFireworks();
+            // fogos.
+        }
     }
 
 }
@@ -289,9 +313,7 @@ class Door{
         this.currentFrame = 0;
         this.framesDawn = 0;
         this.maxFrames = 4;
-
     }
-
     drawDoor(){
         ctx.drawImage(this.spriteDoor, 0, this.door.height * this.currentFrame,
             this.door.width, this.door.height, 
@@ -303,45 +325,102 @@ class Door{
         this.currentFrame = this.currentFrame % this.maxFrames;
 
         this.framesDawn++;
-        if (this.framesDawn>=70){
+        if (this.framesDawn>=100){
             this.currentFrame++;
             this.framesDawn=0;
-        } 
-
-
+        }
     }
 }
 
-
 class Coin {
-    constructor(coin, coinSrc){
+    constructor(coin, coinSrc, maxFrames){
         this.coin = coin;
         this.spriteCoin = new Image();
         this.spriteCoin.src = coinSrc;
 
         this.currentFrame = 0;
         this.framesDawn = 0;
-        this.maxFrames = 4;
+        this.maxFrames = maxFrames;
     }
-
     drawCoin() {
         ctx.drawImage(this.spriteCoin, this.coin.width*this.currentFrame, 0, 
                     this.coin.width, this.coin.height, 
                     this.coin.x, this.coin.y, 
                     this.coin.width*1.5, this.coin.height*1.5);
     }
-
     updateCoin() {
         this.drawCoin();
         this.currentFrame = this.currentFrame % this.maxFrames;
 
         this.framesDawn++;
-        if (this.framesDawn>=4){
+        if (this.framesDawn>=6){
             this.currentFrame++;
             this.framesDawn=0;
         } 
 
     }
+}
 
+
+class Fruit {
+    constructor(coin, coinSrc, maxFrames){
+        this.coin = coin;
+        this.spriteCoin = new Image();
+        this.spriteCoin.src = coinSrc;
+
+        this.currentFrame = 0;
+        this.framesDawn = 0;
+        this.maxFrames = maxFrames;
+    }
+    drawFruit() {
+        ctx.drawImage(this.spriteCoin, this.coin.width*this.currentFrame, 0, 
+                    this.coin.width, this.coin.height, 
+                    this.coin.x, this.coin.y, 
+                    this.coin.width, this.coin.height);
+    }
+    updateFruit() {
+        this.drawFruit();
+        this.currentFrame = this.currentFrame % this.maxFrames;
+
+        this.framesDawn++;
+        if (this.framesDawn>=3){
+            this.currentFrame++;
+            this.framesDawn=0;
+        } 
+
+    }
+}
+
+class Fireworks{
+    constructor(fireworks, fireworksSrc, maxFrames){
+        this.fireworks = fireworks;
+        this.spriteFireworks = new Image();
+        this.spriteFireworks.src = fireworksSrc;
+
+        this.currentFrame = 0;
+        this.framesDawn = 0;
+        this.maxFrames = maxFrames;
+    }
+
+    drawFireworks(){
+        ctx.drawImage(this.spriteFireworks, this.fireworks.width*this.currentFrame, 0, 
+            this.fireworks.width, this.fireworks.height, 
+            this.fireworks.x, this.fireworks.y, 
+            this.fireworks.width, this.fireworks.height);
+    }
+
+    updateFireworks(){
+        fireworks.spriteFireworks.onload = function() {
+                this.drawFireworks();
+        }
+        this.currentFrame = this.currentFrame % this.maxFrames;
+
+        this.framesDawn++;
+        if (this.framesDawn>=80){
+            this.currentFrame++;
+            this.framesDawn=0;
+        } 
+ 
+    }
 }
 
