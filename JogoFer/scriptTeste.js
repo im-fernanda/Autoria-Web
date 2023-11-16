@@ -79,7 +79,8 @@ let fruits = [
 const questions = [
     '2^x = 16?',
     'Δ = x^2 + (6*6)x?',
-    'Cos(π)?'
+    'Cos(π)?',
+    'Parabéns!!!'
 ];
 
 const answers = [
