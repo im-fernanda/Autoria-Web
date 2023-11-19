@@ -36,7 +36,11 @@ let currentPlayer = new Player({position:{x: 0, y:100}, collisionBlocks: ArrayCo
 const npc = new Player({position:{x: 670, y:205}, collisionBlocks: ArrayCollisionBlocks[0], width: 128, height: 130, image: imageGUARD, maxFrames:4, frameBuffer: 10});
 
 const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/Assets/Door.png');
-const fireworks = new Fireworks({x:200, y:300, width:66, height:84}, 'imgs/Assets/Explosion.png', 80);
+const fireworks = [
+    new Fireworks({x:280, y:100, width:92, height:94}, 'imgs/Assets/Explosion.png', 56),
+    new Fireworks({x:378, y:80, width:92, height:94}, 'imgs/Assets/Explosion.png', 56),
+    new Fireworks({x:470, y:100, width:92, height:94}, 'imgs/Assets/Explosion.png', 56)
+];
 
 const player = [ // Vetor dde players para facilitar a troca de colisões
     new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[0], width: 128, height: 130, image: StandRight, maxFrames:6}),
@@ -46,35 +50,36 @@ const player = [ // Vetor dde players para facilitar a troca de colisões
 ];
 
 const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
-    new Background('imgs/Backgrounds/Ruinas1.png', score),
-    new Background('imgs/Backgrounds/Temple1Complete.png', score),
-    new Background('imgs/Backgrounds/Temple2Complete.png', score),
-    new Background('imgs/Backgrounds/cenario1.png', score)
-]
-
-
-let coins = [
-    new Coin({x:420, y:280, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
-    new Coin({x:450, y:260, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
-    new Coin({x:485, y:240, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
-    new Coin({x:600, y:300, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
-    new Coin({x:600, y:200, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
-    new Coin({x:600, y:100, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
-    
+    new Background('imgs/Backgrounds/Ruinas1.png'),
+    new Background('imgs/Backgrounds/Temple1Complete.png'),
+    new Background('imgs/Backgrounds/Temple2Complete.png'),
+    new Background('imgs/Backgrounds/cenario1.png')
 ];
 
-let fruits = [
+const coins1 = [
+    new Coin({x:420, y:280, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:450, y:260, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:485, y:240, width:10, height:10}, 'imgs/Assets/Coin.png', 4)
+];
+const coins2 = [
+    new Coin({x:600, y:300, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:600, y:200, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
+    new Coin({x:600, y:100, width:10, height:10}, 'imgs/Assets/Coin.png', 4)
+];
+
+const fruits1 = [
     new Fruit({x:400, y:250, width:32, height:32}, 'imgs/Assets/Bananas.png', 16),
     new Fruit({x:180, y:350, width:32, height:32}, 'imgs/Assets/Bananas.png', 16),
     new Fruit({x:360, y:250, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
-    new Fruit({x:320, y:270, width:32, height:32}, 'imgs/Assets/Melon.png', 16),
+    new Fruit({x:320, y:270, width:32, height:32}, 'imgs/Assets/Melon.png', 16)
+];
+const fruits2 = [
     new Fruit({x:450, y:132, width:32, height:32}, 'imgs/Assets/Bananas.png', 16),
     new Fruit({x:540, y:200, width:32, height:32}, 'imgs/Assets/Melon.png', 16),
     new Fruit({x:188, y:132, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
     new Fruit({x:208, y:132, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
     new Fruit({x:228, y:132, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
-    new Fruit({x:500, y:170, width:32, height:32}, 'imgs/Assets/Apple.png', 16),
-    
+    new Fruit({x:500, y:170, width:32, height:32}, 'imgs/Assets/Apple.png', 16)
 ]
 
 const questions = [
@@ -138,8 +143,19 @@ function changeBackground() { // Função para trocar o background
     } 
 }
 
+// Função de detecção de colisão com as animações
+function checkAssetsCollision(player, coin) {
+    return (
+        player.position.x < coin.coin.x + coin.coin.width &&
+        player.position.x + player.width > coin.coin.x &&
+        player.position.y < coin.coin.y + coin.coin.height &&
+        player.position.y + player.height > coin.coin.y
+    );
+}
 
-function updateGameArea() { // Atualiza a tela de jogo
+
+// Função de atualização da tela de jogo
+function updateGameArea() { 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     bg[indexBG].draw();
@@ -152,11 +168,85 @@ function updateGameArea() { // Atualiza a tela de jogo
    }
 
    drawScore();
+   
+   
+   if (indexBG==0){
+       ArrayCollisionBlocks[0].forEach((collisionBlock) => {
+           collisionBlock.update();
+        })
+  
+        // Verifica a colisão com moedas
+        coins1.forEach((coin, index) => {
+        if (checkAssetsCollision(currentPlayer, coin)) {
+            // Remove a moeda do vetor quando há uma colisão
+            coins1.splice(index, 1);
+            score++;
+        }
+        });
 
-   if(indexBG == 2){
+        // Atualiza as moedas restantes
+        coins1.forEach(coin => {
+            if (coin) {
+            coin.updateCoin();
+        } }
+        );
+    } else if (indexBG==1){
+        ArrayCollisionBlocks[1].forEach((collisionBlock) => {
+            collisionBlock.update();
+        })
+
+        // Verifica a colisão com as frutas
+        fruits1.forEach((fruit, index) => {
+        if (checkAssetsCollision(currentPlayer, fruit)) {
+            fruits1.splice(index, 1);
+            score++;
+        }
+        });
+     
+        fruits1.forEach(fruit => {
+            if (fruit) {
+            fruit.updateFruit();
+        } }
+        );
+
+    } else if (indexBG==2){
+        ArrayCollisionBlocks[2].forEach((collisionBlock) => {
+            collisionBlock.update();
+        })
+
+        // Verifica a colisão com as frutas
+        fruits2.forEach((fruit, index) => {
+        if (checkAssetsCollision(currentPlayer, fruit)) {
+            fruits2.splice(index, 1);
+            score++;
+            }
+        });
+         
+        fruits2.forEach(fruit => {
+            if (fruit) {
+            fruit.updateFruit();
+        } }
+        );
+
+        // Verifica a colisão com as moedas
+        coins2.forEach((coin, index) => {
+        if (checkAssetsCollision(currentPlayer, coin)) {
+            coins2.splice(index, 1);
+            score++;
+        }
+        });
+
+        coins2.forEach(coin => {
+            if (coin) {
+            coin.updateCoin();
+        } }
+        );
+
+        //Verifica se o jogador caiu na água
         if(currentPlayer.position.x > 458 && currentPlayer.position.y > 349){
             currentPlayer.spritePlayer = imageDead;
             dead = true;
+            score--;
         }
         if(dead){
             currentPlayer.position.x = 0;
@@ -165,21 +255,26 @@ function updateGameArea() { // Atualiza a tela de jogo
             dead = false;
             currentPlayer.spritePlayer = StandRight;
         }
-    }
 
-   if(currentPlayer.position.x > canvas.width - 210){
+    } else if (indexBG==3){
+        ArrayCollisionBlocks[3].forEach((collisionBlock) => {
+            collisionBlock.update();
+        })
+    }
+           
+   if(currentPlayer.position.x > canvas.width - 210){ //currentPlayer.position.x > canvas.width - 210
         dialog = true;
+        changeBackground();
    }
    if(dialog){
-    showDialog(questions[indexQuestion]);
-    if(flag){
-        do{
-            showPrompt();
-            if(answer != answers[indexQuestion]){
-                incorrect = true;
-                // scoreUp = false;
-            }
-        } while (answer != answers[indexQuestion]);
+        showDialog(questions[indexQuestion]);
+        if(flag){
+            do{
+                showPrompt();
+                if(answer != answers[indexQuestion]){
+                    incorrect = true;
+                }
+            } while (answer != answers[indexQuestion]);
 
         score++;
         incorrect = false;
@@ -188,27 +283,8 @@ function updateGameArea() { // Atualiza a tela de jogo
         changeBackground();
 
     }
+}
 
-    }
-
-   if (indexBG==0){
-       ArrayCollisionBlocks[0].forEach((collisionBlock) => {
-           collisionBlock.update();
-        })
-    } else if (indexBG==1){
-        ArrayCollisionBlocks[1].forEach((collisionBlock) => {
-            collisionBlock.update();
-        })
-    } else if (indexBG==2){
-        ArrayCollisionBlocks[2].forEach((collisionBlock) => {
-            collisionBlock.update();
-        })
-    } else if (indexBG==3){
-        ArrayCollisionBlocks[3].forEach((collisionBlock) => {
-            collisionBlock.update();
-        })
-    }
-           
     currentPlayer.updatePlayer();
 
     if(indexBG==0){

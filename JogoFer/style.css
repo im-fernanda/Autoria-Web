@@ -4,19 +4,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* width: 778px;
-    height: 625px; */
 }
-
-/* .scoreboard{
-    display: flex;
-    margin-top: 150px;
-    margin-left: 40px;
-}
-
-#score{
-    margin-left: 10px;
-} */
 
 @font-face {
     font-family: 'Uncial Antiqua';
@@ -26,5 +14,5 @@
 }
 
 body {
-    font-family: 'Uncial Antiqua', sans-serif; /* Use 'Uncial Antiqua' como fonte padrão */
+    font-family: 'Uncial Antiqua', sans-serif;
 }
