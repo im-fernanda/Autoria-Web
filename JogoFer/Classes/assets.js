@@ -51,7 +51,7 @@ class Fruit {
         this.currentFrame = this.currentFrame % this.maxFrames;
 
         this.framesDawn++;
-        if (this.framesDawn>=3){
+        if (this.framesDawn>=3.5){
             this.currentFrame++;
             this.framesDawn=0;
         } 

@@ -59,7 +59,7 @@ const bg = [ // Vetor de backgrounds para facilitar a troca de cenário
 const coins1 = [
     new Coin({x:420, y:280, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
     new Coin({x:450, y:260, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
-    new Coin({x:485, y:240, width:10, height:10}, 'imgs/Assets/Coin.png', 4)
+    new Coin({x:480, y:240, width:10, height:10}, 'imgs/Assets/Coin.png', 4)
 ];
 const coins2 = [
     new Coin({x:600, y:300, width:10, height:10}, 'imgs/Assets/Coin.png', 4),
@@ -161,10 +161,12 @@ function updateGameArea() {
     bg[indexBG].draw();
     if(indexBG==0){
         door.drawDoor();
-        if (currentPlayer.position.x>450){
+        if (currentPlayer.position.x>310){
             door.updateDoor();
             isDoorOpen = true;
         }
+        npc.updatePlayer();
+
    }
 
    drawScore();
@@ -175,7 +177,7 @@ function updateGameArea() {
            collisionBlock.update();
         })
   
-        // Verifica a colisão com moedas
+        // Verifica a colisão as com moedas
         coins1.forEach((coin, index) => {
         if (checkAssetsCollision(currentPlayer, coin)) {
             // Remove a moeda do vetor quando há uma colisão
@@ -262,9 +264,8 @@ function updateGameArea() {
         })
     }
            
-   if(currentPlayer.position.x > canvas.width - 210){ //currentPlayer.position.x > canvas.width - 210
+   if(currentPlayer.position.x > canvas.width - 210){ 
         dialog = true;
-        changeBackground();
    }
    if(dialog){
         showDialog(questions[indexQuestion]);
@@ -287,9 +288,6 @@ function updateGameArea() {
 
     currentPlayer.updatePlayer();
 
-    if(indexBG==0){
-        npc.updatePlayer();
-    }
 }
 
 

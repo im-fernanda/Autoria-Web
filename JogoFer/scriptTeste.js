@@ -38,7 +38,7 @@ const npc = new Player({position:{x: 670, y:205}, collisionBlocks: ArrayCollisio
 const door = new Door( {x:622, y:228, width:95, height:64}, 'imgs/Assets/Door.png');
 const fireworks = new Fireworks({x:200, y:300, width:66, height:84}, 'imgs/Assets/Explosion.png', 80);
 
-const player = [ // Vetor dde players para facilitar a troca de colisões
+const player = [ // Vetor de players para facilitar a troca de colisões
     new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[0], width: 128, height: 130, image: StandRight, maxFrames:6}),
     new Player({position:{x: 0, y:0}, collisionBlocks: ArrayCollisionBlocks[1], width: 128, height: 130, image: StandRight, maxFrames:6}),
     new Player({position:{x: 0, y:150}, collisionBlocks: ArrayCollisionBlocks[2], width: 128, height: 130, image: StandRight, maxFrames:6}),
