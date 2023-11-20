@@ -29,7 +29,6 @@ class Coin {
     }
 }
 
-
 class Fruit {
     constructor(coin, coinSrc, maxFrames){
         this.coin = coin;
@@ -68,7 +67,6 @@ class Fireworks{
         this.currentFrame = 0;
         this.framesDawn = 0;
         this.maxFrames = maxFrames;
-
     }
 
     drawFireworks(){
@@ -84,7 +82,7 @@ class Fireworks{
         this.currentFrame = this.currentFrame % this.maxFrames;
         this.framesDawn++;
 
-        if (this.framesDawn>=3){
+        if (this.framesDawn>=3.5){
             this.currentFrame++;
             this.framesDawn=0;
         } 
