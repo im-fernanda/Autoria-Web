@@ -10,8 +10,6 @@ function keyDownHandler(e) {
     } else if (e.key === 'ArrowUp') {
         currentPlayer.speed.y = -10;
         currentPlayer.jump();
-    // } else if (e.key === ' ') {
-    //         changeBackground();
     } else if (e.key === 'Enter'){
         flag = true;
     }
