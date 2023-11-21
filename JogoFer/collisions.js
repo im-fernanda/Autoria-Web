@@ -131,8 +131,8 @@ const ArrayCollisionMaps = [
     generateCollisionMap(collisions4, 14)
 ];
 
-const blockWidth = [13, 17, 13, 60]; // Adjust the array based on the block heights for each phase
-const blockHeight = [15, 16, 15, 58]; // Adjust the array based on the block heights for each phase
+const blockWidth = [13, 17, 13, 60]; // Ajusta a largura dos blocos para cada fase
+const blockHeight = [15, 16, 15, 58]; // Ajusta a altura dos blocos para cada fase
 
 //Localiza onde devem ser desenhados os blocos de colisões de cada fase
 function generateCollisionBlocks(collisionMap, blockWidth, blockHeight) {

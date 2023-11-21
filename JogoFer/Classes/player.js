@@ -12,7 +12,7 @@ class Player {
         this.spritePlayer = image;
 
         this.currentFrame = 0;
-        this.framesDawn = 0;
+        this.framesDrawn = 0;
         this.frameBuffer = frameBuffer;
         this.maxFrames = maxFrames;
 
@@ -26,8 +26,8 @@ class Player {
     updatePlayer() {
         this.drawPlayer();
         
-        this.framesDawn++;
-        if(this.framesDawn % this.frameBuffer == 0){
+        this.framesDrawn++;
+        if(this.framesDrawn % this.frameBuffer == 0){
         
             if (this.currentFrame<this.maxFrames){
                 this.currentFrame++
@@ -102,12 +102,12 @@ function collisionX(currentPlayer, ArrayCollisionBlocks){
         if(collision(currentPlayer, collisionBlock) ){
             console.log("Colidindo no eixo y!!!")
 
-            //Blocos abaixo
+            //Blocos abaixo do player
             if (currentPlayer.speed.x > 0){
                 currentPlayer.speed.x = 0;
                 currentPlayer.position.x = collisionBlock.position.x - currentPlayer.width - 0.01;
             }
-            //Blocos acima
+            //Blocos acima do player
             if (currentPlayer.speed.x < 0){
                 currentPlayer.speed.x = 0;
                 currentPlayer.position.x = collisionBlock.position.x + collisionBlock.width + 0.01;

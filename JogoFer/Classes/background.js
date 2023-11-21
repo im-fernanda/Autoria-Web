@@ -57,7 +57,7 @@ class Door{
         this.spriteDoor.src = doorSrc;
 
         this.currentFrame = 0;
-        this.framesDawn = 0;
+        this.framesDrawn = 0;
         this.maxFrames = 4;
     }
     drawDoor(){
@@ -70,10 +70,10 @@ class Door{
     updateDoor(){
         this.currentFrame = this.currentFrame % this.maxFrames;
 
-        this.framesDawn++;
-        if (this.framesDawn>=100){
+        this.framesDrawn++;
+        if (this.framesDrawn>=100){
             this.currentFrame++;
-            this.framesDawn=0;
+            this.framesDrawn=0;
         }
     }
 }

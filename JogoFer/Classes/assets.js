@@ -5,7 +5,7 @@ class Coin {
         this.spriteCoin.src = coinSrc;
 
         this.currentFrame = 0;
-        this.framesDawn = 0;
+        this.framesDrawn = 0;
         this.maxFrames = maxFrames;
     }
 
@@ -20,10 +20,10 @@ class Coin {
         this.drawCoin();
         this.currentFrame = this.currentFrame % this.maxFrames;
 
-        this.framesDawn++;
-        if (this.framesDawn>10){
+        this.framesDrawn++;
+        if (this.framesDrawn>10){
             this.currentFrame++;
-            this.framesDawn=0;
+            this.framesDrawn=0;
         } 
 
     }
@@ -36,7 +36,7 @@ class Fruit {
         this.spriteCoin.src = coinSrc;
 
         this.currentFrame = 0;
-        this.framesDawn = 0;
+        this.framesDrawn = 0;
         this.maxFrames = maxFrames;
     }
     drawFruit() {
@@ -49,10 +49,10 @@ class Fruit {
         this.drawFruit();
         this.currentFrame = this.currentFrame % this.maxFrames;
 
-        this.framesDawn++;
-        if (this.framesDawn>=3.5){
+        this.framesDrawn++;
+        if (this.framesDrawn>=3.5){
             this.currentFrame++;
-            this.framesDawn=0;
+            this.framesDrawn=0;
         } 
 
     }
@@ -65,7 +65,7 @@ class Fireworks{
         this.spriteFireworks.src = fireworksSrc;
 
         this.currentFrame = 0;
-        this.framesDawn = 0;
+        this.framesDrawn = 0;
         this.maxFrames = maxFrames;
     }
 
@@ -80,11 +80,11 @@ class Fireworks{
         this.drawFireworks();
         
         this.currentFrame = this.currentFrame % this.maxFrames;
-        this.framesDawn++;
+        this.framesDrawn++;
 
-        if (this.framesDawn>=3.5){
+        if (this.framesDrawn>=3.5){
             this.currentFrame++;
-            this.framesDawn=0;
+            this.framesDrawn=0;
         } 
  
     }
