@@ -156,7 +156,7 @@ const Saude = () => {
             <li onClick={() => redirectTo('/principal')}>Home</li>
             <li onClick={() => redirectTo('/agenda')}>Agenda</li>
             <li onClick={() => redirectTo('/rebanho')}>Rebanho</li>
-            <li onClick={() => redirectTo('/.')}>Saúde</li>
+            <li onClick={() => redirectTo('/saude')}>Saúde</li>
           </ul>
         </nav>
       </header>

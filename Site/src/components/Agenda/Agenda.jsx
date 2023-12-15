@@ -79,7 +79,7 @@ const Agenda = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = date.getDate();
+    const day = date.getDate() + 1;
     const month = date.getMonth() + 1; // Mês é baseado em zero
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;

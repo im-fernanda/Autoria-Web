@@ -22,7 +22,7 @@ const Principal = () => {
     let ovelhas = 0;
     let cabras = 0;
     let i;
-    // Verifica a especie dos animais no localstorage e incrementa sua respectível variável
+    // Verifica a espécie dos animais no localstorage e incrementa sua respectível variável
     for(i=1;i<=animalId;i++){
       localAnimal = JSON.parse(localStorage.getItem('animal ' + i)) // busca o animal por id
       if(localAnimal){
@@ -67,29 +67,11 @@ const Principal = () => {
     localStorage.setItem('completedTasks', JSON.stringify(updatedCompletedTasks));
   }
 
-  const handleIconClick = (index) => {
-    alert(`Ícone de edição clicado para a tarefa ${index}`);
-    // Adicione a lógica para editar
-  };
-
-  const handleCompleteIconClick = (index) => {
-    const completedTask = tasks[index];
-    const updatedCompletedTasks = [...completedTasks, completedTask];
-    const updatedTasks = [...tasks];
-    updatedTasks.splice(index, 1);
-
-    setTasks(updatedTasks);
-    setCompletedTasks(updatedCompletedTasks);
-
-    updateLocalStorage(updatedTasks, updatedCompletedTasks);
-
-    alert(`Ícone de concluído clicado para a tarefa ${index}`);
-  };
 
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    const day = date.getDate();
+    const day = date.getDate() + 1;
     const month = date.getMonth() + 1; // Mês é baseado em zero
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
@@ -146,7 +128,7 @@ const Principal = () => {
       </div>
       
     
-            </div>
+    </div>
       
       
       </main>

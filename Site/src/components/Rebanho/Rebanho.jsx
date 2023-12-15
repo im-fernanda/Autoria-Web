@@ -72,7 +72,7 @@ const Rebanho = () => {
           <ul>
             <li onClick={() => redirectTo('/principal')}>Home</li>
             <li onClick={() => redirectTo('/agenda')}>Agenda</li>
-            <li onClick={() => redirectTo('/.')}>Rebanho</li>
+            <li onClick={() => redirectTo('/rebanho')}>Rebanho</li>
             <li onClick={() => redirectTo('/saude')}>Saúde</li>
           </ul>
         </nav>

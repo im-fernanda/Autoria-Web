@@ -133,7 +133,7 @@ const Ovelha = () => {
             <span className="close" onClick={closeModal}>
               &times;
             </span>
-            {/* Renderize os detalhes da ovelha selecionada dentro do modal */}
+            {/* Renderiza os detalhes da ovelha selecionada dentro do modal */}
             <label>
               Nome:
               <input

@@ -10,7 +10,7 @@ const clearInputs = () => {
 
 const ForgotPassword = () => {
 
-    const navigate = useNavigate(); // Obtém a função de navegação (resposável por trocar de páginas)
+    const navigate = useNavigate(); // Obtém a função de navegação (responsável por trocar de páginas)
 
     const [action, setAction] = useState("Sign Up");
     
